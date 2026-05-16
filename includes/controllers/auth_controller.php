@@ -44,7 +44,7 @@ function requireLogin(string $target = 'admin.php'): void
         return;
     }
 
-    header('Location: login.php?next=' . rawurlencode($target) . '&message=' . rawurlencode('Zaloguj sie, aby otworzyc panel administracyjny.'));
+    header('Location: login.php?next=' . rawurlencode($target) . '&message=' . rawurlencode('Zaloguj się, aby otworzyć panel administracyjny.'));
     exit;
 }
 
@@ -63,7 +63,7 @@ function handleLoginPost(): ?string
         exit;
     }
 
-    return 'Nieprawidlowy login lub haslo.';
+    return 'Nieprawidłowy login lub hasło.';
 }
 
 function sanitizeLocalPath(string $path): string

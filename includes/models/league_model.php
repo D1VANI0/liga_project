@@ -6,30 +6,30 @@ const STORAGE_PATH = __DIR__ . '/../../data/league.json';
 function seedData(): array
 {
     $teams = [
-        1 => ['id' => 1, 'name' => 'Azure United', 'city' => 'Warszawa', 'coach' => 'Anna Nowak', 'color' => '#0f766e'],
-        2 => ['id' => 2, 'name' => 'Cloud Rangers', 'city' => 'Krakow', 'coach' => 'Piotr Zielinski', 'color' => '#4f46e5'],
-        3 => ['id' => 3, 'name' => 'DevOps City', 'city' => 'Gdansk', 'coach' => 'Marta Lewandowska', 'color' => '#d97706'],
-        4 => ['id' => 4, 'name' => 'Serverless FC', 'city' => 'Wroclaw', 'coach' => 'Tomasz Wolski', 'color' => '#be123c'],
-        5 => ['id' => 5, 'name' => 'Data Miners', 'city' => 'Poznan', 'coach' => 'Ewa Zielona', 'color' => '#2563eb'],
-        6 => ['id' => 6, 'name' => 'Frontend Stars', 'city' => 'Lodz', 'coach' => 'Michal Sadowski', 'color' => '#db2777'],
-        7 => ['id' => 7, 'name' => 'Backend Wolves', 'city' => 'Katowice', 'coach' => 'Karol Rutkowski', 'color' => '#16a34a'],
-        8 => ['id' => 8, 'name' => 'API Titans', 'city' => 'Lublin', 'coach' => 'Natalia Maj', 'color' => '#0891b2'],
-        9 => ['id' => 9, 'name' => 'Script Rovers', 'city' => 'Szczecin', 'coach' => 'Robert Gorski', 'color' => '#9333ea'],
-        10 => ['id' => 10, 'name' => 'Pixel Athletic', 'city' => 'Bialystok', 'coach' => 'Kinga Urban', 'color' => '#ea580c'],
+        1 => ['id' => 1, 'name' => 'Orzeł Warszawa', 'city' => 'Warszawa', 'coach' => 'Anna Nowak', 'color' => '#0f766e'],
+        2 => ['id' => 2, 'name' => 'Wisła Kraków', 'city' => 'Kraków', 'coach' => 'Piotr Zieliński', 'color' => '#4f46e5'],
+        3 => ['id' => 3, 'name' => 'Bałtyk Gdańsk', 'city' => 'Gdańsk', 'coach' => 'Marta Lewandowska', 'color' => '#d97706'],
+        4 => ['id' => 4, 'name' => 'Śląsk Wrocław', 'city' => 'Wrocław', 'coach' => 'Tomasz Wolski', 'color' => '#be123c'],
+        5 => ['id' => 5, 'name' => 'Warta Poznań', 'city' => 'Poznań', 'coach' => 'Ewa Zielona', 'color' => '#2563eb'],
+        6 => ['id' => 6, 'name' => 'ŁKS Łódź', 'city' => 'Łódź', 'coach' => 'Michał Sadowski', 'color' => '#db2777'],
+        7 => ['id' => 7, 'name' => 'Górnik Katowice', 'city' => 'Katowice', 'coach' => 'Karol Rutkowski', 'color' => '#16a34a'],
+        8 => ['id' => 8, 'name' => 'Motor Lublin', 'city' => 'Lublin', 'coach' => 'Natalia Maj', 'color' => '#0891b2'],
+        9 => ['id' => 9, 'name' => 'Pogoń Szczecin', 'city' => 'Szczecin', 'coach' => 'Robert Górski', 'color' => '#9333ea'],
+        10 => ['id' => 10, 'name' => 'Jagiellonia Białystok', 'city' => 'Białystok', 'coach' => 'Kinga Urban', 'color' => '#ea580c'],
     ];
 
     $firstNames = [
         'Adam', 'Bartosz', 'Cezary', 'Dawid', 'Emil', 'Filip', 'Grzegorz', 'Hubert', 'Igor', 'Jakub', 'Kamil',
-        'Lukasz', 'Marek', 'Norbert', 'Oskar', 'Patryk', 'Rafal', 'Szymon', 'Tomasz', 'Wiktor', 'Jan', 'Mateusz',
+        'Łukasz', 'Marek', 'Norbert', 'Oskar', 'Patryk', 'Rafał', 'Szymon', 'Tomasz', 'Wiktor', 'Jan', 'Mateusz',
     ];
     $lastNames = [
         'Kowal', 'Lis', 'Mazur', 'Wrona', 'Baran', 'Cichy', 'Krawczyk', 'Malinowski', 'Nowicki', 'Pawlak',
         'Sikora', 'Wolski', 'Kaczmarek', 'Grabowski', 'Duda', 'Kubiak', 'Majewski', 'Rutkowski', 'Urban',
-        'Gorski', 'Zalewski', 'Sadowski',
+        'Górski', 'Zalewski', 'Sadowski',
     ];
     $positions = [
         'Bramkarz', 'Bramkarz',
-        'Obronca', 'Obronca', 'Obronca', 'Obronca', 'Obronca', 'Obronca', 'Obronca',
+        'Obrońca', 'Obrońca', 'Obrońca', 'Obrońca', 'Obrońca', 'Obrońca', 'Obrońca',
         'Pomocnik', 'Pomocnik', 'Pomocnik', 'Pomocnik', 'Pomocnik', 'Pomocnik', 'Pomocnik', 'Pomocnik',
         'Napastnik', 'Napastnik', 'Napastnik', 'Napastnik', 'Napastnik',
     ];

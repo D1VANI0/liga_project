@@ -6,7 +6,7 @@ $teams = $context['teams'];
 $games = $context['games'];
 $locations = $context['locations'];
 
-renderHeader('Mecze', $context, 'Terminarz, lokalizacje oraz zapisane wyniki wszystkich spotkan.');
+renderHeader('Mecze', $context, 'Terminarz, lokalizacje oraz zapisane wyniki wszystkich spotkań.');
 ?>
 <section class="match-page-grid">
     <?php foreach ($games as $game): ?>

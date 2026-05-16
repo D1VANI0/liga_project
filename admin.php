@@ -9,30 +9,30 @@ $players = $context['players'];
 $games = $context['games'];
 $locations = $context['locations'];
 
-renderHeader('Administracja', $context, 'Operacje administratora: druzyny, zawodnicy, mecze, wyniki i bramki.');
+renderHeader('Administracja', $context, 'Operacje administratora: drużyny, zawodnicy, mecze, wyniki i bramki.');
 ?>
 <section class="admin-actions">
     <form class="action-card" method="post">
         <input type="hidden" name="action" value="add_team">
-        <h2>Dodaj druzyne</h2>
-        <label>Nazwa <input name="name" required maxlength="80" placeholder="np. Data FC"></label>
-        <label>Miasto <input name="city" required maxlength="80" placeholder="np. Poznan"></label>
+        <h2>Dodaj drużynę</h2>
+        <label>Nazwa <input name="name" required maxlength="80" placeholder="np. Orzeł FC"></label>
+        <label>Miasto <input name="city" required maxlength="80" placeholder="np. Poznań"></label>
         <label>Trener <input name="coach" required maxlength="80" placeholder="np. Jan Kowalski"></label>
         <label>Kolor <input type="color" name="color" value="#0f766e"></label>
-        <button type="submit">Dodaj druzyne</button>
+        <button type="submit">Dodaj drużynę</button>
     </form>
 
     <form class="action-card" method="post">
         <input type="hidden" name="action" value="add_player">
         <h2>Dodaj zawodnika</h2>
-        <label>Druzyna
+        <label>Drużyna
             <select name="teamId" required>
                 <?php foreach ($teams as $team): ?>
                     <option value="<?= h($team['id']) ?>"><?= h($team['name']) ?></option>
                 <?php endforeach; ?>
             </select>
         </label>
-        <label>Imie i nazwisko <input name="name" required maxlength="80" placeholder="np. Adam Nowy"></label>
+        <label>Imię i nazwisko <input name="name" required maxlength="80" placeholder="np. Adam Nowy"></label>
         <label>Pozycja <input name="position" required maxlength="40" placeholder="np. Pomocnik"></label>
         <button type="submit">Dodaj zawodnika</button>
     </form>
@@ -48,7 +48,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: druzyny, zawod
                 <?php endforeach; ?>
             </select>
         </label>
-        <label>Gosc
+        <label>Gość
             <select name="visitorTeamId" required>
                 <?php foreach ($teams as $team): ?>
                     <option value="<?= h($team['id']) ?>"><?= h($team['name']) ?></option>
@@ -79,14 +79,14 @@ renderHeader('Administracja', $context, 'Operacje administratora: druzyny, zawod
         </label>
         <div class="two-fields">
             <label>Gospodarz <input type="number" name="homeScore" min="0" value="0" required></label>
-            <label>Gosc <input type="number" name="visitorScore" min="0" value="0" required></label>
+            <label>Gość <input type="number" name="visitorScore" min="0" value="0" required></label>
         </div>
         <button type="submit">Zapisz wynik</button>
     </form>
 
     <form class="action-card wide-action" method="post">
         <input type="hidden" name="action" value="add_goal">
-        <h2>Zarejestruj bramke</h2>
+        <h2>Zarejestruj bramkę</h2>
         <label>Mecz
             <select name="gameId" required>
                 <?php foreach ($games as $game): ?>
@@ -96,7 +96,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: druzyny, zawod
                 <?php endforeach; ?>
             </select>
         </label>
-        <label>Druzyna
+        <label>Drużyna
             <select name="teamId" required>
                 <?php foreach ($teams as $team): ?>
                     <option value="<?= h($team['id']) ?>"><?= h($team['name']) ?></option>
@@ -114,14 +114,14 @@ renderHeader('Administracja', $context, 'Operacje administratora: druzyny, zawod
         </label>
         <label>Minuta <input type="number" name="minute" min="1" max="130" value="45" required></label>
         <label>Typ <input name="type" required maxlength="40" value="z gry"></label>
-        <button type="submit">Zapisz bramke</button>
+        <button type="submit">Zapisz bramkę</button>
     </form>
 
     <form class="action-card danger-card" method="post">
         <input type="hidden" name="action" value="reset_demo">
         <h2>Reset danych</h2>
-        <p>Przywraca przykladowe dane projektu i usuwa zmiany zapisane w JSON.</p>
-        <button type="submit">Reset demo</button>
+        <p>Przywraca przykładowe dane projektu i usuwa zmiany zapisane w JSON.</p>
+        <button type="submit">Przywróć dane</button>
     </form>
 </section>
 <?php renderFooter(); ?>

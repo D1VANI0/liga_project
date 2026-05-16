@@ -10,13 +10,13 @@ foreach ($scorers as $scorer) {
     $goalsByPlayer[(int) $scorer['playerId']] = (int) $scorer['goals'];
 }
 
-renderHeader('Zawodnicy', $context, 'Lista zawodnikow oraz klasyfikacja bramek.');
+renderHeader('Zawodnicy', $context, 'Lista zawodników oraz klasyfikacja bramek.');
 ?>
 <section class="player-layout">
     <article class="panel">
         <div class="panel-heading">
             <div>
-                <p class="eyebrow">Player</p>
+                <p class="eyebrow">Zawodnik</p>
                 <h2>Kadra ligi</h2>
             </div>
         </div>
@@ -37,7 +37,7 @@ renderHeader('Zawodnicy', $context, 'Lista zawodnikow oraz klasyfikacja bramek.'
     <article class="panel">
         <div class="panel-heading">
             <div>
-                <p class="eyebrow">Goal</p>
+                <p class="eyebrow">Bramki</p>
                 <h2>Najlepsi strzelcy</h2>
             </div>
         </div>

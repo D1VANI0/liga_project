@@ -20,7 +20,7 @@ function handlePost(array &$data): void
     if ($action === 'reset_demo') {
         $data = seedData();
         saveData($data);
-        redirectWithMessage('Przywrocono dane demonstracyjne.');
+        redirectWithMessage('Przywrócono dane demonstracyjne.');
     }
 
     if ($action === 'add_team') {
@@ -33,7 +33,7 @@ function handlePost(array &$data): void
             'color' => trim((string) ($_POST['color'] ?? '#0f766e')),
         ];
         saveData($data);
-        redirectWithMessage('Dodano druzyne.');
+        redirectWithMessage('Dodano drużynę.');
     }
 
     if ($action === 'add_player') {
@@ -85,6 +85,6 @@ function handlePost(array &$data): void
             'type' => trim((string) $_POST['type']),
         ];
         saveData($data);
-        redirectWithMessage('Zarejestrowano bramke.');
+        redirectWithMessage('Zarejestrowano bramkę.');
     }
 }

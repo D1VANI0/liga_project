@@ -13,11 +13,11 @@ renderHeader('Raporty', $context, 'Widoki analityczne potrzebne w wymaganiach sy
         <div class="panel-heading">
             <div>
                 <p class="eyebrow">Raport</p>
-                <h2>Najlepszy zawodnik przeciw druzynie</h2>
+                <h2>Najlepszy zawodnik przeciw drużynie</h2>
             </div>
         </div>
         <form class="stack-form" method="get">
-            <label>Druzyna
+            <label>Drużyna
                 <select name="opponent">
                     <?php foreach ($teams as $team): ?>
                         <option value="<?= h($team['id']) ?>" <?= (int) $team['id'] === $selectedOpponentId ? 'selected' : '' ?>>
@@ -26,7 +26,7 @@ renderHeader('Raporty', $context, 'Widoki analityczne potrzebne w wymaganiach sy
                     <?php endforeach; ?>
                 </select>
             </label>
-            <button type="submit">Pokaz raport</button>
+            <button type="submit">Pokaż raport</button>
         </form>
         <div class="spotlight">
             <?php if ($bestAgainstTeam !== null): ?>
@@ -36,7 +36,7 @@ renderHeader('Raporty', $context, 'Widoki analityczne potrzebne w wymaganiach sy
             <?php else: ?>
                 <span>Brak danych</span>
                 <strong>Nie ma jeszcze bramek</strong>
-                <p>Wybierz inna druzyne albo dodaj bramki w panelu administratora.</p>
+                <p>Wybierz inną drużynę albo dodaj bramki w panelu administratora.</p>
             <?php endif; ?>
         </div>
     </article>
@@ -44,15 +44,15 @@ renderHeader('Raporty', $context, 'Widoki analityczne potrzebne w wymaganiach sy
     <article class="panel report-card">
         <div class="panel-heading">
             <div>
-                <p class="eyebrow">Cloud</p>
-                <h2>Gotowosc do Azure</h2>
+                <p class="eyebrow">Chmura</p>
+                <h2>Gotowość do wdrożenia</h2>
             </div>
         </div>
         <ul class="check-list">
             <li>Model danych w `includes/models/league_model.php`</li>
-            <li>Kontrolery dla aplikacji, admina i logowania</li>
-            <li>Wspolny layout w warstwie widoku</li>
-            <li>Logowanie przez sesje PHP bez bazy danych</li>
+            <li>Kontrolery dla aplikacji, administracji i logowania</li>
+            <li>Wspólny układ w warstwie widoku</li>
+            <li>Logowanie przez sesję PHP bez bazy danych</li>
             <li>Warstwa JSON gotowa do podmiany na SQL</li>
         </ul>
     </article>

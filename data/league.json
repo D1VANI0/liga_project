@@ -7,71 +7,71 @@
     "teams": {
         "1": {
             "id": 1,
-            "name": "Azure United",
+            "name": "Orzeł Warszawa",
             "city": "Warszawa",
             "coach": "Anna Nowak",
             "color": "#0f766e"
         },
         "2": {
             "id": 2,
-            "name": "Cloud Rangers",
-            "city": "Krakow",
-            "coach": "Piotr Zielinski",
+            "name": "Wisła Kraków",
+            "city": "Kraków",
+            "coach": "Piotr Zieliński",
             "color": "#4f46e5"
         },
         "3": {
             "id": 3,
-            "name": "DevOps City",
-            "city": "Gdansk",
+            "name": "Bałtyk Gdańsk",
+            "city": "Gdańsk",
             "coach": "Marta Lewandowska",
             "color": "#d97706"
         },
         "4": {
             "id": 4,
-            "name": "Serverless FC",
-            "city": "Wroclaw",
+            "name": "Śląsk Wrocław",
+            "city": "Wrocław",
             "coach": "Tomasz Wolski",
             "color": "#be123c"
         },
         "5": {
             "id": 5,
-            "name": "Data Miners",
-            "city": "Poznan",
+            "name": "Warta Poznań",
+            "city": "Poznań",
             "coach": "Ewa Zielona",
             "color": "#2563eb"
         },
         "6": {
             "id": 6,
-            "name": "Frontend Stars",
-            "city": "Lodz",
-            "coach": "Michal Sadowski",
+            "name": "ŁKS Łódź",
+            "city": "Łódź",
+            "coach": "Michał Sadowski",
             "color": "#db2777"
         },
         "7": {
             "id": 7,
-            "name": "Backend Wolves",
+            "name": "Górnik Katowice",
             "city": "Katowice",
             "coach": "Karol Rutkowski",
             "color": "#16a34a"
         },
         "8": {
             "id": 8,
-            "name": "API Titans",
+            "name": "Motor Lublin",
             "city": "Lublin",
             "coach": "Natalia Maj",
             "color": "#0891b2"
         },
         "9": {
             "id": 9,
-            "name": "Script Rovers",
+            "name": "Pogoń Szczecin",
             "city": "Szczecin",
-            "coach": "Robert Gorski",
+            "coach": "Robert Górski",
             "color": "#9333ea"
         },
         "10": {
             "id": 10,
-            "name": "Pixel Athletic",
-            "city": "Bialystok",
+            "name": "Jagiellonia Białystok",
+            "city": "Białystok",
             "coach": "Kinga Urban",
             "color": "#ea580c"
         }
@@ -93,43 +93,43 @@
             "id": 3,
             "teamId": 1,
             "name": "Cezary Mazur",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 4,
             "teamId": 1,
             "name": "Dawid Wrona",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 5,
             "teamId": 1,
             "name": "Emil Baran",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 6,
             "teamId": 1,
             "name": "Filip Cichy",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 7,
             "teamId": 1,
             "name": "Grzegorz Krawczyk",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 8,
             "teamId": 1,
             "name": "Hubert Malinowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 9,
             "teamId": 1,
             "name": "Igor Nowicki",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 10,
@@ -146,7 +146,7 @@
         {
             "id": 12,
             "teamId": 1,
-            "name": "Lukasz Wolski",
+            "name": "Łukasz Wolski",
             "position": "Pomocnik"
         },
         {
@@ -176,7 +176,7 @@
         {
             "id": 17,
             "teamId": 1,
-            "name": "Rafal Majewski",
+            "name": "Rafał Majewski",
             "position": "Pomocnik"
         },
         {
@@ -194,7 +194,7 @@
         {
             "id": 20,
             "teamId": 1,
-            "name": "Wiktor Gorski",
+            "name": "Wiktor Górski",
             "position": "Napastnik"
         },
         {
@@ -225,43 +225,43 @@
             "id": 25,
             "teamId": 2,
             "name": "Cezary Wrona",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 26,
             "teamId": 2,
             "name": "Dawid Baran",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 27,
             "teamId": 2,
             "name": "Emil Cichy",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 28,
             "teamId": 2,
             "name": "Filip Krawczyk",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 29,
             "teamId": 2,
             "name": "Grzegorz Malinowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 30,
             "teamId": 2,
             "name": "Hubert Nowicki",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 31,
             "teamId": 2,
             "name": "Igor Pawlak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 32,
@@ -278,7 +278,7 @@
         {
             "id": 34,
             "teamId": 2,
-            "name": "Lukasz Kaczmarek",
+            "name": "Łukasz Kaczmarek",
             "position": "Pomocnik"
         },
         {
@@ -308,7 +308,7 @@
         {
             "id": 39,
             "teamId": 2,
-            "name": "Rafal Rutkowski",
+            "name": "Rafał Rutkowski",
             "position": "Pomocnik"
         },
         {
@@ -320,7 +320,7 @@
         {
             "id": 41,
             "teamId": 2,
-            "name": "Tomasz Gorski",
+            "name": "Tomasz Górski",
             "position": "Napastnik"
         },
         {
@@ -357,43 +357,43 @@
             "id": 47,
             "teamId": 3,
             "name": "Cezary Baran",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 48,
             "teamId": 3,
             "name": "Dawid Cichy",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 49,
             "teamId": 3,
             "name": "Emil Krawczyk",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 50,
             "teamId": 3,
             "name": "Filip Malinowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 51,
             "teamId": 3,
             "name": "Grzegorz Nowicki",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 52,
             "teamId": 3,
             "name": "Hubert Pawlak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 53,
             "teamId": 3,
             "name": "Igor Sikora",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 54,
@@ -410,7 +410,7 @@
         {
             "id": 56,
             "teamId": 3,
-            "name": "Lukasz Grabowski",
+            "name": "Łukasz Grabowski",
             "position": "Pomocnik"
         },
         {
@@ -440,13 +440,13 @@
         {
             "id": 61,
             "teamId": 3,
-            "name": "Rafal Urban",
+            "name": "Rafał Urban",
             "position": "Pomocnik"
         },
         {
             "id": 62,
             "teamId": 3,
-            "name": "Szymon Gorski",
+            "name": "Szymon Górski",
             "position": "Napastnik"
         },
         {
@@ -489,43 +489,43 @@
             "id": 69,
             "teamId": 4,
             "name": "Cezary Cichy",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 70,
             "teamId": 4,
             "name": "Dawid Krawczyk",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 71,
             "teamId": 4,
             "name": "Emil Malinowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 72,
             "teamId": 4,
             "name": "Filip Nowicki",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 73,
             "teamId": 4,
             "name": "Grzegorz Pawlak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 74,
             "teamId": 4,
             "name": "Hubert Sikora",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 75,
             "teamId": 4,
             "name": "Igor Wolski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 76,
@@ -542,7 +542,7 @@
         {
             "id": 78,
             "teamId": 4,
-            "name": "Lukasz Duda",
+            "name": "Łukasz Duda",
             "position": "Pomocnik"
         },
         {
@@ -572,7 +572,7 @@
         {
             "id": 83,
             "teamId": 4,
-            "name": "Rafal Gorski",
+            "name": "Rafał Górski",
             "position": "Pomocnik"
         },
         {
@@ -621,43 +621,43 @@
             "id": 91,
             "teamId": 5,
             "name": "Cezary Krawczyk",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 92,
             "teamId": 5,
             "name": "Dawid Malinowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 93,
             "teamId": 5,
             "name": "Emil Nowicki",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 94,
             "teamId": 5,
             "name": "Filip Pawlak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 95,
             "teamId": 5,
             "name": "Grzegorz Sikora",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 96,
             "teamId": 5,
             "name": "Hubert Wolski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 97,
             "teamId": 5,
             "name": "Igor Kaczmarek",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 98,
@@ -674,7 +674,7 @@
         {
             "id": 100,
             "teamId": 5,
-            "name": "Lukasz Kubiak",
+            "name": "Łukasz Kubiak",
             "position": "Pomocnik"
         },
         {
@@ -698,13 +698,13 @@
         {
             "id": 104,
             "teamId": 5,
-            "name": "Patryk Gorski",
+            "name": "Patryk Górski",
             "position": "Pomocnik"
         },
         {
             "id": 105,
             "teamId": 5,
-            "name": "Rafal Zalewski",
+            "name": "Rafał Zalewski",
             "position": "Pomocnik"
         },
         {
@@ -753,43 +753,43 @@
             "id": 113,
             "teamId": 6,
             "name": "Cezary Malinowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 114,
             "teamId": 6,
             "name": "Dawid Nowicki",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 115,
             "teamId": 6,
             "name": "Emil Pawlak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 116,
             "teamId": 6,
             "name": "Filip Sikora",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 117,
             "teamId": 6,
             "name": "Grzegorz Wolski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 118,
             "teamId": 6,
             "name": "Hubert Kaczmarek",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 119,
             "teamId": 6,
             "name": "Igor Grabowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 120,
@@ -806,7 +806,7 @@
         {
             "id": 122,
             "teamId": 6,
-            "name": "Lukasz Majewski",
+            "name": "Łukasz Majewski",
             "position": "Pomocnik"
         },
         {
@@ -824,7 +824,7 @@
         {
             "id": 125,
             "teamId": 6,
-            "name": "Oskar Gorski",
+            "name": "Oskar Górski",
             "position": "Pomocnik"
         },
         {
@@ -836,7 +836,7 @@
         {
             "id": 127,
             "teamId": 6,
-            "name": "Rafal Sadowski",
+            "name": "Rafał Sadowski",
             "position": "Pomocnik"
         },
         {
@@ -885,43 +885,43 @@
             "id": 135,
             "teamId": 7,
             "name": "Cezary Nowicki",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 136,
             "teamId": 7,
             "name": "Dawid Pawlak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 137,
             "teamId": 7,
             "name": "Emil Sikora",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 138,
             "teamId": 7,
             "name": "Filip Wolski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 139,
             "teamId": 7,
             "name": "Grzegorz Kaczmarek",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 140,
             "teamId": 7,
             "name": "Hubert Grabowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 141,
             "teamId": 7,
             "name": "Igor Duda",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 142,
@@ -938,7 +938,7 @@
         {
             "id": 144,
             "teamId": 7,
-            "name": "Lukasz Rutkowski",
+            "name": "Łukasz Rutkowski",
             "position": "Pomocnik"
         },
         {
@@ -950,7 +950,7 @@
         {
             "id": 146,
             "teamId": 7,
-            "name": "Norbert Gorski",
+            "name": "Norbert Górski",
             "position": "Pomocnik"
         },
         {
@@ -968,7 +968,7 @@
         {
             "id": 149,
             "teamId": 7,
-            "name": "Rafal Kowal",
+            "name": "Rafał Kowal",
             "position": "Pomocnik"
         },
         {
@@ -1017,43 +1017,43 @@
             "id": 157,
             "teamId": 8,
             "name": "Cezary Pawlak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 158,
             "teamId": 8,
             "name": "Dawid Sikora",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 159,
             "teamId": 8,
             "name": "Emil Wolski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 160,
             "teamId": 8,
             "name": "Filip Kaczmarek",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 161,
             "teamId": 8,
             "name": "Grzegorz Grabowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 162,
             "teamId": 8,
             "name": "Hubert Duda",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 163,
             "teamId": 8,
             "name": "Igor Kubiak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 164,
@@ -1070,13 +1070,13 @@
         {
             "id": 166,
             "teamId": 8,
-            "name": "Lukasz Urban",
+            "name": "Łukasz Urban",
             "position": "Pomocnik"
         },
         {
             "id": 167,
             "teamId": 8,
-            "name": "Marek Gorski",
+            "name": "Marek Górski",
             "position": "Pomocnik"
         },
         {
@@ -1100,7 +1100,7 @@
         {
             "id": 171,
             "teamId": 8,
-            "name": "Rafal Lis",
+            "name": "Rafał Lis",
             "position": "Pomocnik"
         },
         {
@@ -1149,43 +1149,43 @@
             "id": 179,
             "teamId": 9,
             "name": "Cezary Sikora",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 180,
             "teamId": 9,
             "name": "Dawid Wolski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 181,
             "teamId": 9,
             "name": "Emil Kaczmarek",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 182,
             "teamId": 9,
             "name": "Filip Grabowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 183,
             "teamId": 9,
             "name": "Grzegorz Duda",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 184,
             "teamId": 9,
             "name": "Hubert Kubiak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 185,
             "teamId": 9,
             "name": "Igor Majewski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 186,
@@ -1202,7 +1202,7 @@
         {
             "id": 188,
             "teamId": 9,
-            "name": "Lukasz Gorski",
+            "name": "Łukasz Górski",
             "position": "Pomocnik"
         },
         {
@@ -1232,7 +1232,7 @@
         {
             "id": 193,
             "teamId": 9,
-            "name": "Rafal Mazur",
+            "name": "Rafał Mazur",
             "position": "Pomocnik"
         },
         {
@@ -1281,43 +1281,43 @@
             "id": 201,
             "teamId": 10,
             "name": "Cezary Wolski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 202,
             "teamId": 10,
             "name": "Dawid Kaczmarek",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 203,
             "teamId": 10,
             "name": "Emil Grabowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 204,
             "teamId": 10,
             "name": "Filip Duda",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 205,
             "teamId": 10,
             "name": "Grzegorz Kubiak",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 206,
             "teamId": 10,
             "name": "Hubert Majewski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 207,
             "teamId": 10,
             "name": "Igor Rutkowski",
-            "position": "Obronca"
+            "position": "Obrońca"
         },
         {
             "id": 208,
@@ -1328,13 +1328,13 @@
         {
             "id": 209,
             "teamId": 10,
-            "name": "Kamil Gorski",
+            "name": "Kamil Górski",
             "position": "Pomocnik"
         },
         {
             "id": 210,
             "teamId": 10,
-            "name": "Lukasz Zalewski",
+            "name": "Łukasz Zalewski",
             "position": "Pomocnik"
         },
         {
@@ -1364,7 +1364,7 @@
         {
             "id": 215,
             "teamId": 10,
-            "name": "Rafal Wrona",
+            "name": "Rafał Wrona",
             "position": "Pomocnik"
         },
         {

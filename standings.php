@@ -4,7 +4,7 @@ require __DIR__ . '/includes/app.php';
 $context = appContext();
 $standings = $context['standings'];
 
-renderHeader('Tabela ligowa', $context, 'Ranking druzyn liczony automatycznie na podstawie wynikow spotkan.');
+renderHeader('Tabela ligowa', $context, 'Ranking drużyn liczony automatycznie na podstawie wyników spotkań.');
 ?>
 <section class="panel league-table-panel">
     <div class="panel-heading">
@@ -17,17 +17,17 @@ renderHeader('Tabela ligowa', $context, 'Ranking druzyn liczony automatycznie na
         <table class="league-table">
             <thead>
                 <tr>
-                    <th>Pos</th>
-                    <th>Club</th>
+                    <th>Poz.</th>
+                    <th>Klub</th>
                     <th>P</th>
                     <th>W</th>
-                    <th>D</th>
+                    <th>R</th>
                     <th>L</th>
-                    <th>GF</th>
-                    <th>GA</th>
-                    <th>GD</th>
-                    <th>Pts</th>
-                    <th>Form</th>
+                    <th>BZ</th>
+                    <th>BS</th>
+                    <th>RB</th>
+                    <th>Pkt</th>
+                    <th>Forma</th>
                 </tr>
             </thead>
             <tbody>
@@ -56,8 +56,8 @@ renderHeader('Tabela ligowa', $context, 'Ranking druzyn liczony automatycznie na
         </table>
     </div>
     <div class="table-meta">
-        <span>Tip: na mobile przesun tabele poziomo, zeby zobaczyc wszystkie kolumny.</span>
-        <span><?= count($standings) ?> druzyny</span>
+        <span>Wskazówka: na telefonie przesuń tabelę poziomo, żeby zobaczyć wszystkie kolumny.</span>
+        <span><?= count($standings) ?> drużyn</span>
     </div>
 </section>
 <?php renderFooter(); ?>

@@ -10,7 +10,7 @@ foreach ($standings as $row) {
     $standingByTeam[(int) $row['teamId']] = $row;
 }
 
-renderHeader('Druzyny', $context, 'Karty druzyn z trenerami, miastami i podstawowymi statystykami.');
+renderHeader('Drużyny', $context, 'Karty drużyn z trenerami, miastami i podstawowymi statystykami.');
 ?>
 <section class="team-grid">
     <?php foreach ($teams as $team): ?>

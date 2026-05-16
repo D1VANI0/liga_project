@@ -10,11 +10,11 @@ $scorers = $context['scorers'];
 $playedGames = $context['playedGames'];
 $upcomingGames = $context['upcomingGames'];
 
-renderHeader('Panel ligi', $context, 'Najwazniejsze informacje o rozgrywkach, wynikach i aktywnosci systemu.');
+renderHeader('Panel ligi', $context, 'Najważniejsze informacje o rozgrywkach, wynikach i aktywności systemu.');
 ?>
 <section class="hero-board">
     <article class="hero-card">
-        <p class="eyebrow">Najlepsza druzyna</p>
+        <p class="eyebrow">Najlepsza drużyna</p>
         <h2><?= h($context['bestTeam']['team'] ?? '-') ?></h2>
         <p><?= h($context['bestTeam']['points'] ?? 0) ?> pkt, <?= h($context['bestTeam']['played'] ?? 0) ?> rozegrane mecze</p>
     </article>
@@ -27,7 +27,7 @@ renderHeader('Panel ligi', $context, 'Najwazniejsze informacje o rozgrywkach, wy
 
 <section class="metric-grid">
     <article class="metric-card">
-        <span>Druzyny</span>
+        <span>Drużyny</span>
         <strong><?= count($teams) ?></strong>
     </article>
     <article class="metric-card">
@@ -39,7 +39,7 @@ renderHeader('Panel ligi', $context, 'Najwazniejsze informacje o rozgrywkach, wy
         <strong><?= count($playedGames) ?></strong>
     </article>
     <article class="metric-card">
-        <span>Nadchodzace mecze</span>
+        <span>Nadchodzące mecze</span>
         <strong><?= count($upcomingGames) ?></strong>
     </article>
 </section>
@@ -48,10 +48,10 @@ renderHeader('Panel ligi', $context, 'Najwazniejsze informacje o rozgrywkach, wy
     <article class="panel">
         <div class="panel-heading">
             <div>
-                <p class="eyebrow">Top 4</p>
+                <p class="eyebrow">Czołówka</p>
                 <h2>Tabela</h2>
             </div>
-            <a href="standings.php">Pelna tabela</a>
+            <a href="standings.php">Pełna tabela</a>
         </div>
         <div class="mini-table">
             <?php foreach (array_slice($standings, 0, 4) as $index => $row): ?>
@@ -68,7 +68,7 @@ renderHeader('Panel ligi', $context, 'Najwazniejsze informacje o rozgrywkach, wy
         <div class="panel-heading">
             <div>
                 <p class="eyebrow">Strzelcy</p>
-                <h2>Forma zawodnikow</h2>
+                <h2>Forma zawodników</h2>
             </div>
             <a href="players.php">Zawodnicy</a>
         </div>
@@ -90,7 +90,7 @@ renderHeader('Panel ligi', $context, 'Najwazniejsze informacje o rozgrywkach, wy
     <div class="panel-heading">
         <div>
             <p class="eyebrow">Terminarz</p>
-            <h2>Najblizsze mecze</h2>
+            <h2>Najbliższe mecze</h2>
         </div>
         <a href="matches.php">Wszystkie mecze</a>
     </div>

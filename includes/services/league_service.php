@@ -91,7 +91,7 @@ function buildScorers(array $players, array $teams, array $goals): array
 
         if (!isset($scorers[$playerId])) {
             $player = $playerMap[$playerId];
-            $team = $teams[(int) $player['teamId']] ?? ['name' => 'Brak druzyny'];
+            $team = $teams[(int) $player['teamId']] ?? ['name' => 'Brak drużyny'];
             $scorers[$playerId] = [
                 'playerId' => $playerId,
                 'player' => $player['name'],
@@ -140,7 +140,7 @@ function findBestPlayerAgainstTeam(array $players, array $teams, array $games, a
 
         if (!isset($result[$playerId])) {
             $player = $playerMap[$playerId];
-            $team = $teams[(int) $player['teamId']] ?? ['name' => 'Brak druzyny'];
+            $team = $teams[(int) $player['teamId']] ?? ['name' => 'Brak drużyny'];
             $result[$playerId] = [
                 'player' => $player['name'],
                 'team' => $team['name'],

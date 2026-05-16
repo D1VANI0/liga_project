@@ -14,7 +14,7 @@ function isActive(string $file): string
 function renderHeader(string $title, array $context, string $subtitle = ''): void
 {
     $league = $context['league'];
-    $subtitle = $subtitle !== '' ? $subtitle : 'Panel SaaS przygotowany pod wdrozenie w Azure';
+    $subtitle = $subtitle !== '' ? $subtitle : 'Panel ligi przygotowany pod wdrożenie w chmurze';
     ?>
     <!doctype html>
     <html lang="pl">
@@ -33,19 +33,19 @@ function renderHeader(string $title, array $context, string $subtitle = ''): voi
                     <small><?= h($league['season']) ?></small>
                 </span>
             </a>
-            <nav class="main-nav" aria-label="Glowne">
+            <nav class="main-nav" aria-label="Główne">
                 <a class="<?= isActive('index.php') ?>" href="index.php">Panel</a>
                 <a class="<?= isActive('standings.php') ?>" href="standings.php">Tabela</a>
                 <a class="<?= isActive('matches.php') ?>" href="matches.php">Mecze</a>
-                <a class="<?= isActive('teams.php') ?>" href="teams.php">Druzyny</a>
+                <a class="<?= isActive('teams.php') ?>" href="teams.php">Drużyny</a>
                 <a class="<?= isActive('players.php') ?>" href="players.php">Zawodnicy</a>
                 <a class="<?= isActive('reports.php') ?>" href="reports.php">Raporty</a>
-                <a class="<?= isActive('admin.php') ?>" href="admin.php">Admin</a>
+                <a class="<?= isActive('admin.php') ?>" href="admin.php">Administracja</a>
             </nav>
             <div class="deploy-card">
-                <span>Cloud target</span>
-                <strong>Azure App Service</strong>
-                <small>JSON teraz, SQL pozniej</small>
+                <span>Wdrożenie</span>
+                <strong>Usługa aplikacji</strong>
+                <small>JSON teraz, SQL później</small>
             </div>
         </aside>
         <div class="shell">
@@ -73,8 +73,8 @@ function renderFooter(): void
     ?>
             </main>
             <footer class="app-footer">
-                <span>System Liga - prototyp MVC bez bazy danych</span>
-                <span>Gotowy do podmiany JSON na relacyjna baze w Azure</span>
+                <span>System Liga - prototyp bez bazy danych</span>
+                <span>Gotowy do podmiany JSON na relacyjną bazę danych</span>
             </footer>
         </div>
     </body>

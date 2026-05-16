@@ -1,67 +1,67 @@
-# System Liga - prototyp SaaS
+# System Liga - prototyp aplikacji
 
-Prototyp aplikacji webowej dla zadania "Lab 5 - 8 Implementacja w Cloud".
-Aplikacja jest przygotowana w PHP i na tym etapie dziala bez bazy danych.
-Projekt ma strukture wielostronicowa, a dane sa zapisywane w pliku JSON.
-Pozwala to pokazac logike systemu przed podlaczeniem relacyjnej bazy danych w Azure.
+Aplikacja webowa dla zadania "Lab 5 - 8 Implementacja w chmurze".
+Aplikacja jest przygotowana w PHP i na tym etapie działa bez bazy danych.
+Projekt ma strukturę wielostronicową, a dane są zapisywane w pliku JSON.
+Pozwala to pokazać logikę systemu przed podłączeniem relacyjnej bazy danych.
 
 ## Zaimplementowane funkcje
 
 - panel startowy z podsumowaniem ligi,
-- osobne podstrony: tabela, mecze, druzyny, zawodnicy, raporty i admin,
-- tabela ligowa liczona automatycznie z wynikow meczow,
-- terminarz i wyniki spotkan,
-- klasyfikacja strzelcow,
-- raport najlepszego zawodnika przeciw wybranej druzynie,
-- lista druzyn i zawodnikow,
-- logowanie administratora oparte o sesje PHP, bez bazy danych,
-- panel administratora zapisujacy zmiany w pliku JSON,
-- dodawanie druzyn, zawodnikow, meczow, wynikow i bramek bez bazy danych,
+- osobne podstrony: tabela, mecze, drużyny, zawodnicy, raporty i administracja,
+- tabela ligowa liczona automatycznie z wyników meczów,
+- terminarz i wyniki spotkań,
+- klasyfikacja strzelców,
+- raport najlepszego zawodnika przeciw wybranej drużynie,
+- lista drużyn i zawodników,
+- logowanie administratora oparte o sesję PHP, bez bazy danych,
+- panel administratora zapisujący zmiany w pliku JSON,
+- dodawanie drużyn, zawodników, meczów, wyników i bramek bez bazy danych,
 - responsywny interfejs w `styles.css`.
 
 ## Model logiczny
 
 Prototyp odwzorowuje encje z dokumentacji projektu:
 
-- `League`
-- `Schedule`
-- `Game`
-- `Team`
-- `Player`
-- `Goal`
-- `Score`
-- `TeamStanding`
-- `Location`
+- liga,
+- terminarz,
+- mecz,
+- drużyna,
+- zawodnik,
+- bramka,
+- wynik,
+- tabela drużyn,
+- lokalizacja.
 
-W aktualnej wersji model danych startowych znajduje sie w `includes/models/league_model.php`,
-a po uruchomieniu aplikacji dane sa przechowywane w `data/league.json`.
+W aktualnej wersji model danych startowych znajduje się w `includes/models/league_model.php`,
+a po uruchomieniu aplikacji dane są przechowywane w `data/league.json`.
 Funkcje `buildStandings`, `buildScorers` i `findBestPlayerAgainstTeam`
-pelnia role prostej warstwy uslug.
+pełnią rolę prostej warstwy usług.
 
 ## Logowanie
 
-Panel administratora dziala bez bazy danych. Uwierzytelnianie jest oparte o
-sesje PHP i stale konto demo:
+Panel administratora działa bez bazy danych. Uwierzytelnianie jest oparte o
+sesję PHP i stałe konto demonstracyjne:
 
 - login: `admin`,
-- haslo: `Liga2026!`.
+- hasło: `Liga2026!`.
 
-## Struktura plikow
+## Struktura plików
 
-- `index.php` - panel glowny,
+- `index.php` - panel główny,
 - `standings.php` - tabela ligowa,
 - `matches.php` - terminarz i wyniki,
-- `teams.php` - druzyny,
+- `teams.php` - drużyny,
 - `players.php` - zawodnicy i strzelcy,
 - `reports.php` - raporty,
 - `admin.php` - formularze administracyjne,
 - `login.php` - logowanie administratora,
 - `logout.php` - wylogowanie administratora,
-- `includes/app.php` - bootstrap aplikacji MVC,
+- `includes/app.php` - plik startowy aplikacji,
 - `includes/models/league_model.php` - dane startowe i zapis JSON,
 - `includes/services/league_service.php` - statystyki i raporty,
-- `includes/controllers/` - kontrolery aplikacji, admina i logowania,
-- `includes/views/layout.php` - wspolny layout,
+- `includes/controllers/` - kontrolery aplikacji, administracji i logowania,
+- `includes/views/layout.php` - wspólny układ,
 - `styles.css` - interfejs aplikacji.
 
 ## Uruchomienie lokalne
@@ -70,20 +70,20 @@ sesje PHP i stale konto demo:
 php -S 127.0.0.1:8000 -t .
 ```
 
-Nastepnie otworz:
+Następnie otwórz:
 
 ```text
 http://127.0.0.1:8000
 ```
 
-## Plan wdrozenia w Azure
+## Plan wdrożenia
 
 Najprostsza docelowa architektura:
 
-- Azure App Service dla aplikacji PHP,
-- Azure Database for MySQL albo PostgreSQL dla danych,
-- Storage Account na backupy lub pliki,
-- Application Insights do monitorowania.
+- usługa aplikacji w chmurze dla aplikacji PHP,
+- relacyjna baza danych MySQL albo PostgreSQL,
+- magazyn plików na kopie zapasowe,
+- monitorowanie działania aplikacji.
 
-Kolejny krok implementacyjny to wydzielenie warstwy dostepu do danych i
+Kolejny krok implementacyjny to wydzielenie warstwy dostępu do danych i
 podmiana tablic demonstracyjnych na zapytania SQL.
