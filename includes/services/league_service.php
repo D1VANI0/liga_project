@@ -16,6 +16,7 @@ function buildStandings(array $teams, array $games): array
             'goalsScored' => 0,
             'goalsConceded' => 0,
             'points' => 0,
+            'form' => [],
         ];
     }
 
@@ -40,17 +41,28 @@ function buildStandings(array $teams, array $games): array
             $standings[$homeId]['wins']++;
             $standings[$visitorId]['losses']++;
             $standings[$homeId]['points'] += 3;
+            $standings[$homeId]['form'][] = 'W';
+            $standings[$visitorId]['form'][] = 'L';
         } elseif ($homeScore < $visitorScore) {
             $standings[$visitorId]['wins']++;
             $standings[$homeId]['losses']++;
             $standings[$visitorId]['points'] += 3;
+            $standings[$homeId]['form'][] = 'L';
+            $standings[$visitorId]['form'][] = 'W';
         } else {
             $standings[$homeId]['draws']++;
             $standings[$visitorId]['draws']++;
             $standings[$homeId]['points']++;
             $standings[$visitorId]['points']++;
+            $standings[$homeId]['form'][] = 'D';
+            $standings[$visitorId]['form'][] = 'D';
         }
     }
+
+    foreach ($standings as &$row) {
+        $row['form'] = array_slice($row['form'], -5);
+    }
+    unset($row);
 
     usort($standings, static function (array $a, array $b): int {
         $goalDiffA = $a['goalsScored'] - $a['goalsConceded'];

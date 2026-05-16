@@ -6,27 +6,28 @@ $standings = $context['standings'];
 
 renderHeader('Tabela ligowa', $context, 'Ranking druzyn liczony automatycznie na podstawie wynikow spotkan.');
 ?>
-<section class="panel">
+<section class="panel league-table-panel">
     <div class="panel-heading">
         <div>
-            <p class="eyebrow">TeamStanding</p>
+            <p class="eyebrow"><?= h($context['league']['season']) ?></p>
             <h2>Klasyfikacja generalna</h2>
         </div>
     </div>
-    <div class="table-wrap">
-        <table>
+    <div class="table-wrap league-table-wrap">
+        <table class="league-table">
             <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Druzyna</th>
-                    <th>M</th>
-                    <th>W</th>
-                    <th>R</th>
+                    <th>Pos</th>
+                    <th>Club</th>
                     <th>P</th>
-                    <th>B+</th>
-                    <th>B-</th>
-                    <th>+/-</th>
-                    <th>Pkt</th>
+                    <th>W</th>
+                    <th>D</th>
+                    <th>L</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>GD</th>
+                    <th>Pts</th>
+                    <th>Form</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,10 +43,21 @@ renderHeader('Tabela ligowa', $context, 'Ranking druzyn liczony automatycznie na
                         <td><?= h($row['goalsConceded']) ?></td>
                         <td><?= h($row['goalsScored'] - $row['goalsConceded']) ?></td>
                         <td><strong><?= h($row['points']) ?></strong></td>
+                        <td>
+                            <span class="form-dots" aria-label="Forma">
+                                <?php foreach ($row['form'] as $result): ?>
+                                    <span class="form-dot <?= h(strtolower($result)) ?>" title="<?= h($result) ?>"></span>
+                                <?php endforeach; ?>
+                            </span>
+                        </td>
                     </tr>
                 <?php endforeach; ?>
             </tbody>
         </table>
+    </div>
+    <div class="table-meta">
+        <span>Tip: na mobile przesun tabele poziomo, zeby zobaczyc wszystkie kolumny.</span>
+        <span><?= count($standings) ?> druzyny</span>
     </div>
 </section>
 <?php renderFooter(); ?>
