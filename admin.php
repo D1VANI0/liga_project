@@ -120,7 +120,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: drużyny, zawo
     <form class="action-card danger-card" method="post">
         <input type="hidden" name="action" value="reset_demo">
         <h2>Reset danych</h2>
-        <p>Przywraca przykładowe dane projektu i usuwa zmiany zapisane w JSON.</p>
+        <p>Przywraca przykładowe dane projektu i usuwa zmiany zapisane w bazie danych.</p>
         <button type="submit">Przywróć dane</button>
     </form>
 </section>

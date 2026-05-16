@@ -44,8 +44,8 @@ function renderHeader(string $title, array $context, string $subtitle = ''): voi
             </nav>
             <div class="deploy-card">
                 <span>Wdrożenie</span>
-                <strong>Usługa aplikacji</strong>
-                <small>JSON teraz, SQL później</small>
+                <strong>Supabase</strong>
+                <small>PostgreSQL jako źródło danych</small>
             </div>
         </aside>
         <div class="shell">
@@ -73,8 +73,8 @@ function renderFooter(): void
     ?>
             </main>
             <footer class="app-footer">
-                <span>System Liga - prototyp bez bazy danych</span>
-                <span>Gotowy do podmiany JSON na relacyjną bazę danych</span>
+                <span>System Liga - aplikacja PHP z bazą Supabase</span>
+                <span>Dane, statystyki i raporty są pobierane z PostgreSQL</span>
             </footer>
         </div>
     </body>

@@ -1,47 +1,51 @@
-# System Liga - prototyp aplikacji
+# System Liga - aplikacja PHP z Supabase
 
 Aplikacja webowa dla zadania "Lab 5 - 8 Implementacja w chmurze".
-Aplikacja jest przygotowana w PHP i na tym etapie działa bez bazy danych.
-Projekt ma strukturę wielostronicową, a dane są zapisywane w pliku JSON.
-Pozwala to pokazać logikę systemu przed podłączeniem relacyjnej bazy danych.
+Projekt działa w PHP, a dane są przechowywane w bazie Supabase PostgreSQL.
+Panel administracyjny wykonuje operacje `insert` i `update` bezpośrednio w bazie,
+a raporty korzystają z widoków i funkcji SQL.
 
 ## Zaimplementowane funkcje
 
 - panel startowy z podsumowaniem ligi,
 - osobne podstrony: tabela, mecze, drużyny, zawodnicy, raporty i administracja,
-- tabela ligowa liczona automatycznie z wyników meczów,
-- terminarz i wyniki spotkań,
-- klasyfikacja strzelców,
-- raport najlepszego zawodnika przeciw wybranej drużynie,
+- tabela ligowa liczona przez widok SQL `standings_view`,
+- terminarz i wyniki spotkań pobierane z PostgreSQL,
+- klasyfikacja strzelców liczona przez widok SQL `scorers_view`,
+- raport najlepszego zawodnika przeciw wybranej drużynie przez funkcję SQL `best_player_against_team`,
 - lista drużyn i zawodników,
-- logowanie administratora oparte o sesję PHP, bez bazy danych,
-- panel administratora zapisujący zmiany w pliku JSON,
-- dodawanie drużyn, zawodników, meczów, wyników i bramek bez bazy danych,
+- logowanie administratora oparte o sesję PHP,
+- panel administratora zapisujący drużyny, zawodników, mecze, wyniki i bramki w Supabase,
 - responsywny interfejs w `styles.css`.
 
-## Model logiczny
+## Konfiguracja Supabase
 
-Prototyp odwzorowuje encje z dokumentacji projektu:
+1. W Supabase otwórz `SQL Editor`.
+2. Wklej i uruchom cały plik `database/schema.sql`.
+3. Skopiuj `.env.example` do `.env`.
+4. Wpisz hasło bazy danych w `SUPABASE_DB_PASSWORD`.
 
-- liga,
-- terminarz,
-- mecz,
-- drużyna,
-- zawodnik,
-- bramka,
-- wynik,
-- tabela drużyn,
-- lokalizacja.
+Przykład konfiguracji:
 
-W aktualnej wersji model danych startowych znajduje się w `includes/models/league_model.php`,
-a po uruchomieniu aplikacji dane są przechowywane w `data/league.json`.
-Funkcje `buildStandings`, `buildScorers` i `findBestPlayerAgainstTeam`
-pełnią rolę prostej warstwy usług.
+```env
+SUPABASE_DB_DSN=pgsql:host=aws-1-eu-central-1.pooler.supabase.com;port=5432;dbname=postgres;sslmode=require
+SUPABASE_DB_USER=postgres.yafhuowjnxgkcitmsxkp
+SUPABASE_DB_PASSWORD=twoje-haslo
+```
+
+Można użyć także `DATABASE_URL`, ale przy znakach specjalnych w haśle bezpieczniejsze są trzy osobne zmienne powyżej.
+
+## Pierwsze uruchomienie
+
+Po utworzeniu tabel aplikacja sama doda dane demonstracyjne, jeżeli tabela `leagues`
+jest pusta. Te same dane można przywrócić z panelu administratora przez akcję
+`Reset danych`.
+
+Do połączenia PHP z Supabase potrzebne jest rozszerzenie `pdo_pgsql`.
 
 ## Logowanie
 
-Panel administratora działa bez bazy danych. Uwierzytelnianie jest oparte o
-sesję PHP i stałe konto demonstracyjne:
+Panel administratora używa sesji PHP i stałego konta demonstracyjnego:
 
 - login: `admin`,
 - hasło: `Liga2026!`.
@@ -57,9 +61,11 @@ sesję PHP i stałe konto demonstracyjne:
 - `admin.php` - formularze administracyjne,
 - `login.php` - logowanie administratora,
 - `logout.php` - wylogowanie administratora,
-- `includes/app.php` - plik startowy aplikacji,
-- `includes/models/league_model.php` - dane startowe i zapis JSON,
-- `includes/services/league_service.php` - statystyki i raporty,
+- `database/schema.sql` - tabele, indeksy, widoki i funkcja raportowa dla Supabase,
+- `includes/config.php` - ładowanie zmiennych środowiskowych,
+- `includes/database.php` - połączenie PDO z PostgreSQL,
+- `includes/models/league_model.php` - odczyt i zapis danych w bazie,
+- `includes/services/league_service.php` - statystyki i raporty z SQL,
 - `includes/controllers/` - kontrolery aplikacji, administracji i logowania,
 - `includes/views/layout.php` - wspólny układ,
 - `styles.css` - interfejs aplikacji.
@@ -76,14 +82,7 @@ Następnie otwórz:
 http://127.0.0.1:8000
 ```
 
-## Plan wdrożenia
+## Wdrożenie w chmurze
 
-Najprostsza docelowa architektura:
-
-- usługa aplikacji w chmurze dla aplikacji PHP,
-- relacyjna baza danych MySQL albo PostgreSQL,
-- magazyn plików na kopie zapasowe,
-- monitorowanie działania aplikacji.
-
-Kolejny krok implementacyjny to wydzielenie warstwy dostępu do danych i
-podmiana tablic demonstracyjnych na zapytania SQL.
+Na serwerze produkcyjnym ustaw te same zmienne środowiskowe co w `.env`.
+Nie commituj pliku `.env` i nie wklejaj hasła bazy danych do kodu.

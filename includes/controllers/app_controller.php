@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 function appContext(): array
 {
-    $data = loadData();
-    handlePost($data);
+    handlePost();
 
-    $standings = buildStandings($data['teams'], $data['games']);
-    $scorers = buildScorers($data['players'], $data['teams'], $data['goals']);
+    $data = loadData();
+    $standings = loadStandings();
+    $scorers = loadScorers();
     $playedGames = array_values(array_filter($data['games'], static fn (array $game): bool => $game['homeScore'] !== null && $game['visitorScore'] !== null));
     $upcomingGames = array_values(array_filter($data['games'], static fn (array $game): bool => $game['homeScore'] === null || $game['visitorScore'] === null));
 
