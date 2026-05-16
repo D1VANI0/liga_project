@@ -14,6 +14,7 @@ Pozwala to pokazac logike systemu przed podlaczeniem relacyjnej bazy danych w Az
 - klasyfikacja strzelcow,
 - raport najlepszego zawodnika przeciw wybranej druzynie,
 - lista druzyn i zawodnikow,
+- logowanie administratora oparte o sesje PHP, bez bazy danych,
 - panel administratora zapisujacy zmiany w pliku JSON,
 - dodawanie druzyn, zawodnikow, meczow, wynikow i bramek bez bazy danych,
 - responsywny interfejs w `styles.css`.
@@ -32,10 +33,18 @@ Prototyp odwzorowuje encje z dokumentacji projektu:
 - `TeamStanding`
 - `Location`
 
-W aktualnej wersji tablice w pliku `index.php` pelnia role danych startowych,
+W aktualnej wersji model danych startowych znajduje sie w `includes/models/league_model.php`,
 a po uruchomieniu aplikacji dane sa przechowywane w `data/league.json`.
 Funkcje `buildStandings`, `buildScorers` i `findBestPlayerAgainstTeam`
 pelnia role prostej warstwy uslug.
+
+## Logowanie
+
+Panel administratora dziala bez bazy danych. Uwierzytelnianie jest oparte o
+sesje PHP i stale konto demo:
+
+- login: `admin`,
+- haslo: `Liga2026!`.
 
 ## Struktura plikow
 
@@ -46,7 +55,13 @@ pelnia role prostej warstwy uslug.
 - `players.php` - zawodnicy i strzelcy,
 - `reports.php` - raporty,
 - `admin.php` - formularze administracyjne,
-- `includes/app.php` - dane, zapis JSON, logika i wspolny layout,
+- `login.php` - logowanie administratora,
+- `logout.php` - wylogowanie administratora,
+- `includes/app.php` - bootstrap aplikacji MVC,
+- `includes/models/league_model.php` - dane startowe i zapis JSON,
+- `includes/services/league_service.php` - statystyki i raporty,
+- `includes/controllers/` - kontrolery aplikacji, admina i logowania,
+- `includes/views/layout.php` - wspolny layout,
 - `styles.css` - interfejs aplikacji.
 
 ## Uruchomienie lokalne

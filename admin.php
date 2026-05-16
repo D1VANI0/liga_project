@@ -1,6 +1,8 @@
 <?php
 require __DIR__ . '/includes/app.php';
 
+requireLogin('admin.php');
+
 $context = appContext();
 $teams = $context['teams'];
 $players = $context['players'];

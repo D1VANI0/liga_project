@@ -49,10 +49,11 @@ renderHeader('Raporty', $context, 'Widoki analityczne potrzebne w wymaganiach sy
             </div>
         </div>
         <ul class="check-list">
-            <li>Oddzielona logika danych w `includes/app.php`</li>
-            <li>Wiele widokow zamiast jednej dlugiej strony</li>
+            <li>Model danych w `includes/models/league_model.php`</li>
+            <li>Kontrolery dla aplikacji, admina i logowania</li>
+            <li>Wspolny layout w warstwie widoku</li>
+            <li>Logowanie przez sesje PHP bez bazy danych</li>
             <li>Warstwa JSON gotowa do podmiany na SQL</li>
-            <li>Interfejs administracyjny dla operacji systemowych</li>
         </ul>
     </article>
 </section>
