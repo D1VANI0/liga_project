@@ -2,47 +2,24 @@
 require __DIR__ . '/includes/app.php';
 
 $context = appContext();
-$teams = $context['teams'];
-$players = $context['players'];
-$scorers = $context['scorers'];
-$goalsByPlayer = [];
-foreach ($scorers as $scorer) {
-    $goalsByPlayer[(int) $scorer['playerId']] = (int) $scorer['goals'];
-}
+$topScorers = array_slice($context['scorers'], 0, 10);
 
-renderHeader('Zawodnicy', $context, 'Lista zawodników oraz klasyfikacja bramek.');
+renderHeader('Zawodnicy', $context, 'Pierwsza dziesiątka najlepszych strzelców ligi.');
 ?>
-<section class="player-layout">
-    <article class="panel">
-        <div class="panel-heading">
-            <div>
-                <p class="eyebrow">Zawodnik</p>
-                <h2>Kadra ligi</h2>
-            </div>
+<section class="panel scorers-panel">
+    <div class="panel-heading">
+        <div>
+            <p class="eyebrow">Bramki</p>
+            <h2>Najlepsi strzelcy</h2>
         </div>
-        <div class="player-list">
-            <?php foreach ($players as $player): ?>
-                <div>
-                    <span class="avatar"><?= h(substr($player['name'], 0, 1)) ?></span>
-                    <span>
-                        <strong><?= h($player['name']) ?></strong>
-                        <small><?= h($teams[(int) $player['teamId']]['name']) ?>, <?= h($player['position']) ?></small>
-                    </span>
-                    <b><?= h($goalsByPlayer[(int) $player['id']] ?? 0) ?></b>
-                </div>
-            <?php endforeach; ?>
-        </div>
-    </article>
+        <strong>TOP 10</strong>
+    </div>
 
-    <article class="panel">
-        <div class="panel-heading">
-            <div>
-                <p class="eyebrow">Bramki</p>
-                <h2>Najlepsi strzelcy</h2>
-            </div>
-        </div>
-        <ol class="rank-list">
-            <?php foreach ($scorers as $scorer): ?>
+    <?php if ($topScorers === []): ?>
+        <p class="empty-note">Nie ma jeszcze zapisanych bramek.</p>
+    <?php else: ?>
+        <ol class="rank-list top-scorers-list">
+            <?php foreach ($topScorers as $scorer): ?>
                 <li>
                     <span>
                         <strong><?= h($scorer['player']) ?></strong>
@@ -52,6 +29,6 @@ renderHeader('Zawodnicy', $context, 'Lista zawodników oraz klasyfikacja bramek.
                 </li>
             <?php endforeach; ?>
         </ol>
-    </article>
+    <?php endif; ?>
 </section>
 <?php renderFooter(); ?>

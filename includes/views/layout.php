@@ -25,7 +25,7 @@ function renderHeader(string $title, array $context, string $subtitle = ''): voi
         <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        <aside class="sidebar">
+        <header class="topbar">
             <a class="brand" href="index.php">
                 <span class="brand-mark">
                     <img src="assets/logo-transparent.png" alt="Herb ligi">
@@ -35,16 +35,20 @@ function renderHeader(string $title, array $context, string $subtitle = ''): voi
                     <small><?= h($league['season']) ?></small>
                 </span>
             </a>
-            <nav class="main-nav" aria-label="Główne">
-                <a class="<?= isActive('index.php') ?>" href="index.php">Panel</a>
-                <a class="<?= isActive('standings.php') ?>" href="standings.php">Tabela</a>
-                <a class="<?= isActive('matches.php') ?>" href="matches.php">Mecze</a>
-                <a class="<?= isActive('teams.php') ?>" href="teams.php">Drużyny</a>
-                <a class="<?= isActive('players.php') ?>" href="players.php">Zawodnicy</a>
-                <a class="<?= isActive('reports.php') ?>" href="reports.php">Raporty</a>
-                <a class="<?= isActive('admin.php') ?>" href="admin.php">Administracja</a>
-            </nav>
-        </aside>
+
+            <details class="nav-dropdown">
+                <summary>Menu</summary>
+                <nav class="main-nav" aria-label="Główne">
+                    <a class="<?= isActive('index.php') ?>" href="index.php">Panel</a>
+                    <a class="<?= isActive('standings.php') ?>" href="standings.php">Tabela</a>
+                    <a class="<?= isActive('matches.php') ?>" href="matches.php">Mecze</a>
+                    <a class="<?= isActive('teams.php') ?>" href="teams.php">Drużyny</a>
+                    <a class="<?= isActive('players.php') ?>" href="players.php">Zawodnicy</a>
+                    <a class="<?= isActive('reports.php') ?>" href="reports.php">Raporty</a>
+                    <a class="<?= isActive('admin.php') ?>" href="admin.php">Administracja</a>
+                </nav>
+            </details>
+        </header>
         <div class="shell">
             <header class="page-header">
                 <div>
