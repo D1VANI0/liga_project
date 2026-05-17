@@ -326,6 +326,16 @@ function saveDataToDatabase(PDO $pdo, array $data): void
     }
 }
 
+function nextDatabaseId(PDO $pdo, string $table): int
+{
+    $allowedTables = ['app_teams', 'app_players', 'app_locations', 'app_games'];
+    if (!in_array($table, $allowedTables, true)) {
+        throw new InvalidArgumentException('Nieprawidłowa tabela dla generowania id.');
+    }
+
+    return (int) $pdo->query("select coalesce(max(id), 0) + 1 from {$table}")->fetchColumn();
+}
+
 function nextId(array $items): int
 {
     $ids = array_column($items, 'id');
@@ -334,6 +344,21 @@ function nextId(array $items): int
 
 function addTeam(string $name, string $city, string $coach, string $color): void
 {
+    if (databaseConfigured()) {
+        $pdo = database();
+        ensureDatabaseSchema($pdo);
+        $statement = $pdo->prepare('insert into app_teams (id, league_id, name, city, coach, color) values (:id, 1, :name, :city, :coach, :color)');
+        $statement->execute([
+            'id' => nextDatabaseId($pdo, 'app_teams'),
+            'name' => $name,
+            'city' => $city,
+            'coach' => $coach,
+            'color' => $color !== '' ? $color : '#0f766e',
+        ]);
+
+        return;
+    }
+
     $data = loadData();
     $id = nextId($data['teams']);
     $data['teams'][$id] = ['id' => $id, 'name' => $name, 'city' => $city, 'coach' => $coach, 'color' => $color !== '' ? $color : '#0f766e'];
@@ -342,6 +367,20 @@ function addTeam(string $name, string $city, string $coach, string $color): void
 
 function addPlayer(int $teamId, string $name, string $position): void
 {
+    if (databaseConfigured()) {
+        $pdo = database();
+        ensureDatabaseSchema($pdo);
+        $statement = $pdo->prepare('insert into app_players (id, team_id, name, position) values (:id, :team_id, :name, :position)');
+        $statement->execute([
+            'id' => nextDatabaseId($pdo, 'app_players'),
+            'team_id' => $teamId,
+            'name' => $name,
+            'position' => $position,
+        ]);
+
+        return;
+    }
+
     $data = loadData();
     $data['players'][] = ['id' => nextId($data['players']), 'teamId' => $teamId, 'name' => $name, 'position' => $position];
     saveData($data);
@@ -349,6 +388,23 @@ function addPlayer(int $teamId, string $name, string $position): void
 
 function addGame(string $date, int $homeTeamId, int $visitorTeamId, int $locationId): void
 {
+    if (databaseConfigured()) {
+        $pdo = database();
+        ensureDatabaseSchema($pdo);
+        $id = nextDatabaseId($pdo, 'app_games');
+        $statement = $pdo->prepare('insert into app_games (id, league_id, name, game_date, home_team_id, visitor_team_id, location_id, home_score, visitor_score) values (:id, 1, :name, :game_date, :home_team_id, :visitor_team_id, :location_id, null, null)');
+        $statement->execute([
+            'id' => $id,
+            'name' => 'Mecz ' . $id,
+            'game_date' => $date,
+            'home_team_id' => $homeTeamId,
+            'visitor_team_id' => $visitorTeamId,
+            'location_id' => $locationId,
+        ]);
+
+        return;
+    }
+
     $data = loadData();
     $id = nextId($data['games']);
     $data['games'][] = ['id' => $id, 'name' => 'Mecz ' . $id, 'date' => $date, 'homeTeamId' => $homeTeamId, 'visitorTeamId' => $visitorTeamId, 'locationId' => $locationId, 'homeScore' => null, 'visitorScore' => null];
@@ -357,6 +413,19 @@ function addGame(string $date, int $homeTeamId, int $visitorTeamId, int $locatio
 
 function updateGameResult(int $gameId, int $homeScore, int $visitorScore): void
 {
+    if (databaseConfigured()) {
+        $pdo = database();
+        ensureDatabaseSchema($pdo);
+        $statement = $pdo->prepare('update app_games set home_score = :home_score, visitor_score = :visitor_score where id = :id');
+        $statement->execute([
+            'id' => $gameId,
+            'home_score' => max(0, $homeScore),
+            'visitor_score' => max(0, $visitorScore),
+        ]);
+
+        return;
+    }
+
     $data = loadData();
     foreach ($data['games'] as &$game) {
         if ((int) $game['id'] === $gameId) {
@@ -371,6 +440,21 @@ function updateGameResult(int $gameId, int $homeScore, int $visitorScore): void
 
 function addGoal(int $gameId, int $teamId, int $playerId, int $minute, string $type): void
 {
+    if (databaseConfigured()) {
+        $pdo = database();
+        ensureDatabaseSchema($pdo);
+        $statement = $pdo->prepare('insert into app_goals (game_id, team_id, player_id, minute, type) values (:game_id, :team_id, :player_id, :minute, :type)');
+        $statement->execute([
+            'game_id' => $gameId,
+            'team_id' => $teamId,
+            'player_id' => $playerId,
+            'minute' => max(1, min(130, $minute)),
+            'type' => $type,
+        ]);
+
+        return;
+    }
+
     $data = loadData();
     $data['goals'][] = ['gameId' => $gameId, 'teamId' => $teamId, 'playerId' => $playerId, 'minute' => max(1, min(130, $minute)), 'type' => $type];
     saveData($data);
