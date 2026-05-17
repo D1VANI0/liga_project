@@ -1,3 +1,4 @@
 .codex_docx_media/
+.env
 data/league.json
 data/sessions/

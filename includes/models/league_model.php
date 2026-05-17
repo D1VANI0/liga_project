@@ -120,8 +120,262 @@ function seedPlayerId(int $teamId, int $squadNumber): int
     return (($teamId - 1) * 22) + $squadNumber;
 }
 
+function databaseConfigured(): bool
+{
+    return appConfig('SUPABASE_DB_DSN') !== null
+        && appConfig('SUPABASE_DB_USER') !== null
+        && appConfig('SUPABASE_DB_PASSWORD') !== null;
+}
+
+function database(): PDO
+{
+    static $pdo = null;
+
+    if ($pdo instanceof PDO) {
+        return $pdo;
+    }
+
+    $pdo = new PDO(
+        (string) appConfig('SUPABASE_DB_DSN'),
+        (string) appConfig('SUPABASE_DB_USER'),
+        (string) appConfig('SUPABASE_DB_PASSWORD'),
+        [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+        ],
+    );
+
+    return $pdo;
+}
+
+function ensureDatabaseSchema(PDO $pdo): void
+{
+    static $ready = false;
+
+    if ($ready) {
+        return;
+    }
+
+    $pdo->exec(<<<'SQL'
+        create table if not exists app_league_settings (
+            id integer primary key default 1,
+            name text not null,
+            season text not null,
+            schedule text not null,
+            constraint league_settings_single_row check (id = 1)
+        );
+
+        create table if not exists app_teams (
+            id integer primary key,
+            name text not null,
+            city text not null,
+            coach text not null,
+            color text not null
+        );
+
+        create table if not exists app_players (
+            id integer primary key,
+            team_id integer not null references app_teams(id) on delete cascade,
+            name text not null,
+            position text not null
+        );
+
+        create table if not exists app_locations (
+            id integer primary key,
+            name text not null,
+            timezone text not null
+        );
+
+        create table if not exists app_games (
+            id integer primary key,
+            name text not null,
+            game_date text not null,
+            home_team_id integer not null references app_teams(id) on delete cascade,
+            visitor_team_id integer not null references app_teams(id) on delete cascade,
+            location_id integer not null references app_locations(id) on delete cascade,
+            home_score integer null,
+            visitor_score integer null
+        );
+
+        create table if not exists app_goals (
+            id bigserial primary key,
+            game_id integer not null references app_games(id) on delete cascade,
+            team_id integer not null references app_teams(id) on delete cascade,
+            player_id integer not null references app_players(id) on delete cascade,
+            minute integer not null,
+            type text not null
+        );
+    SQL);
+
+    $ready = true;
+}
+
+function loadDataFromDatabase(PDO $pdo): array
+{
+    ensureDatabaseSchema($pdo);
+
+    $hasLeague = (int) $pdo->query('select count(*) from app_league_settings')->fetchColumn() > 0;
+    if (!$hasLeague) {
+        saveDataToDatabase($pdo, seedData());
+    }
+
+    $league = $pdo->query('select name, season, schedule from app_league_settings where id = 1')->fetch();
+    $teams = [];
+    foreach ($pdo->query('select id, name, city, coach, color from app_teams order by id') as $team) {
+        $teams[(int) $team['id']] = [
+            'id' => (int) $team['id'],
+            'name' => $team['name'],
+            'city' => $team['city'],
+            'coach' => $team['coach'],
+            'color' => $team['color'],
+        ];
+    }
+
+    $players = [];
+    foreach ($pdo->query('select id, team_id, name, position from app_players order by id') as $player) {
+        $players[] = [
+            'id' => (int) $player['id'],
+            'teamId' => (int) $player['team_id'],
+            'name' => $player['name'],
+            'position' => $player['position'],
+        ];
+    }
+
+    $locations = [];
+    foreach ($pdo->query('select id, name, timezone from app_locations order by id') as $location) {
+        $locations[(int) $location['id']] = [
+            'id' => (int) $location['id'],
+            'name' => $location['name'],
+            'timezone' => $location['timezone'],
+        ];
+    }
+
+    $games = [];
+    foreach ($pdo->query('select id, name, game_date, home_team_id, visitor_team_id, location_id, home_score, visitor_score from app_games order by id') as $game) {
+        $games[] = [
+            'id' => (int) $game['id'],
+            'name' => $game['name'],
+            'date' => $game['game_date'],
+            'homeTeamId' => (int) $game['home_team_id'],
+            'visitorTeamId' => (int) $game['visitor_team_id'],
+            'locationId' => (int) $game['location_id'],
+            'homeScore' => $game['home_score'] === null ? null : (int) $game['home_score'],
+            'visitorScore' => $game['visitor_score'] === null ? null : (int) $game['visitor_score'],
+        ];
+    }
+
+    $goals = [];
+    foreach ($pdo->query('select game_id, team_id, player_id, minute, type from app_goals order by id') as $goal) {
+        $goals[] = [
+            'gameId' => (int) $goal['game_id'],
+            'teamId' => (int) $goal['team_id'],
+            'playerId' => (int) $goal['player_id'],
+            'minute' => (int) $goal['minute'],
+            'type' => $goal['type'],
+        ];
+    }
+
+    return [
+        'league' => $league ?: seedData()['league'],
+        'teams' => $teams,
+        'players' => $players,
+        'locations' => $locations,
+        'games' => $games,
+        'goals' => $goals,
+    ];
+}
+
+function saveDataToDatabase(PDO $pdo, array $data): void
+{
+    ensureDatabaseSchema($pdo);
+
+    $pdo->beginTransaction();
+
+    try {
+        $pdo->exec('delete from app_goals');
+        $pdo->exec('delete from app_games');
+        $pdo->exec('delete from app_players');
+        $pdo->exec('delete from app_locations');
+        $pdo->exec('delete from app_teams');
+        $pdo->exec('delete from app_league_settings');
+
+        $statement = $pdo->prepare('insert into app_league_settings (id, name, season, schedule) values (1, :name, :season, :schedule)');
+        $statement->execute([
+            ':name' => $data['league']['name'],
+            ':season' => $data['league']['season'],
+            ':schedule' => $data['league']['schedule'],
+        ]);
+
+        $statement = $pdo->prepare('insert into app_teams (id, name, city, coach, color) values (:id, :name, :city, :coach, :color)');
+        foreach ($data['teams'] as $team) {
+            $statement->execute([
+                ':id' => (int) $team['id'],
+                ':name' => $team['name'],
+                ':city' => $team['city'],
+                ':coach' => $team['coach'],
+                ':color' => $team['color'] ?? '#0f766e',
+            ]);
+        }
+
+        $statement = $pdo->prepare('insert into app_locations (id, name, timezone) values (:id, :name, :timezone)');
+        foreach ($data['locations'] as $location) {
+            $statement->execute([
+                ':id' => (int) $location['id'],
+                ':name' => $location['name'],
+                ':timezone' => $location['timezone'],
+            ]);
+        }
+
+        $statement = $pdo->prepare('insert into app_players (id, team_id, name, position) values (:id, :team_id, :name, :position)');
+        foreach ($data['players'] as $player) {
+            $statement->execute([
+                ':id' => (int) $player['id'],
+                ':team_id' => (int) $player['teamId'],
+                ':name' => $player['name'],
+                ':position' => $player['position'],
+            ]);
+        }
+
+        $statement = $pdo->prepare('insert into app_games (id, name, game_date, home_team_id, visitor_team_id, location_id, home_score, visitor_score) values (:id, :name, :game_date, :home_team_id, :visitor_team_id, :location_id, :home_score, :visitor_score)');
+        foreach ($data['games'] as $game) {
+            $statement->execute([
+                ':id' => (int) $game['id'],
+                ':name' => $game['name'],
+                ':game_date' => $game['date'],
+                ':home_team_id' => (int) $game['homeTeamId'],
+                ':visitor_team_id' => (int) $game['visitorTeamId'],
+                ':location_id' => (int) $game['locationId'],
+                ':home_score' => $game['homeScore'],
+                ':visitor_score' => $game['visitorScore'],
+            ]);
+        }
+
+        $statement = $pdo->prepare('insert into app_goals (game_id, team_id, player_id, minute, type) values (:game_id, :team_id, :player_id, :minute, :type)');
+        foreach ($data['goals'] as $goal) {
+            $statement->execute([
+                ':game_id' => (int) $goal['gameId'],
+                ':team_id' => (int) $goal['teamId'],
+                ':player_id' => (int) $goal['playerId'],
+                ':minute' => (int) $goal['minute'],
+                ':type' => $goal['type'],
+            ]);
+        }
+
+        $pdo->commit();
+    } catch (Throwable $exception) {
+        $pdo->rollBack();
+        throw $exception;
+    }
+}
+
 function saveData(array $data): void
 {
+    if (databaseConfigured()) {
+        saveDataToDatabase(database(), $data);
+
+        return;
+    }
+
     $directory = dirname(STORAGE_PATH);
     if (!is_dir($directory)) {
         mkdir($directory, 0775, true);
@@ -132,6 +386,10 @@ function saveData(array $data): void
 
 function loadData(): array
 {
+    if (databaseConfigured()) {
+        return loadDataFromDatabase(database());
+    }
+
     $seed = seedData();
     if (!is_file(STORAGE_PATH)) {
         saveData($seed);
