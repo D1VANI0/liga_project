@@ -53,7 +53,7 @@ renderHeader('Raporty', $context, 'Widoki analityczne potrzebne w wymaganiach sy
             <li>Kontrolery dla aplikacji, administracji i logowania</li>
             <li>Wspólny układ w warstwie widoku</li>
             <li>Logowanie administratora przez sesję PHP</li>
-            <li>Widoki SQL dla tabeli ligowej i klasyfikacji strzelców</li>
+            <li>Tabele aplikacji z prefiksem `app_` w Supabase</li>
         </ul>
     </article>
 </section>

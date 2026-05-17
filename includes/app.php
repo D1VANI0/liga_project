@@ -11,10 +11,6 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/config.php';
-<<<<<<< HEAD
-=======
-require_once __DIR__ . '/database.php';
->>>>>>> 1c95d67abd59be267ccc96fde4b746c11bbb116b
 require_once __DIR__ . '/models/league_model.php';
 require_once __DIR__ . '/services/league_service.php';
 require_once __DIR__ . '/controllers/auth_controller.php';
