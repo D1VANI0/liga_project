@@ -137,7 +137,8 @@ function seedPlayerId(int $teamId, int $squadNumber): int
 
 function databaseConfigured(): bool
 {
-    return appConfig('SUPABASE_DB_DSN') !== null && appConfig('SUPABASE_DB_USER') !== null && appConfig('SUPABASE_DB_PASSWORD') !== null;
+    return appConfig('DATABASE_URL') !== null
+        || (appConfig('SUPABASE_DB_DSN') !== null && appConfig('SUPABASE_DB_USER') !== null && appConfig('SUPABASE_DB_PASSWORD') !== null);
 }
 
 function database(): PDO
@@ -147,12 +148,54 @@ function database(): PDO
         return $pdo;
     }
 
-    $pdo = new PDO((string) appConfig('SUPABASE_DB_DSN'), (string) appConfig('SUPABASE_DB_USER'), (string) appConfig('SUPABASE_DB_PASSWORD'), [
+    $config = databaseConnectionConfig();
+    $pdo = new PDO($config['dsn'], $config['user'], $config['password'], [
         PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ]);
 
     return $pdo;
+}
+
+function databaseConnectionConfig(): array
+{
+    $url = appConfig('DATABASE_URL');
+    if ($url !== null) {
+        return databaseConnectionConfigFromUrl($url);
+    }
+
+    return [
+        'dsn' => (string) appConfig('SUPABASE_DB_DSN'),
+        'user' => (string) appConfig('SUPABASE_DB_USER'),
+        'password' => (string) appConfig('SUPABASE_DB_PASSWORD'),
+    ];
+}
+
+function databaseConnectionConfigFromUrl(string $url): array
+{
+    $parts = parse_url($url);
+    if ($parts === false || !isset($parts['host'], $parts['user'])) {
+        throw new RuntimeException('Nieprawidlowy DATABASE_URL.');
+    }
+
+    $scheme = $parts['scheme'] ?? '';
+    if (!in_array($scheme, ['postgres', 'postgresql'], true)) {
+        throw new RuntimeException('DATABASE_URL musi wskazywac na PostgreSQL.');
+    }
+
+    $database = isset($parts['path']) ? ltrim($parts['path'], '/') : 'postgres';
+    $database = $database !== '' ? $database : 'postgres';
+
+    return [
+        'dsn' => sprintf(
+            'pgsql:host=%s;port=%d;dbname=%s;sslmode=require',
+            $parts['host'],
+            (int) ($parts['port'] ?? 5432),
+            $database,
+        ),
+        'user' => rawurldecode($parts['user']),
+        'password' => rawurldecode($parts['pass'] ?? ''),
+    ];
 }
 
 function ensureDatabaseSchema(PDO $pdo): void

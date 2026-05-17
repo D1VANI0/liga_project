@@ -27,6 +27,9 @@ Połączenie z Supabase jest czytane ze zmiennych środowiskowych:
 - `SUPABASE_DB_USER`,
 - `SUPABASE_DB_PASSWORD`.
 
+Alternatywnie można ustawić jedną zmienną `DATABASE_URL` w formacie PostgreSQL.
+Jeżeli Azure ma tylko `DATABASE_URL`, aplikacja także połączy się z Supabase.
+
 Aplikacja używa tabel:
 
 - `app_league_settings`,
