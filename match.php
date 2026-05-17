@@ -38,10 +38,16 @@ $home = $teams[(int) $game['homeTeamId']];
 $visitor = $teams[(int) $game['visitorTeamId']];
 $location = $locations[(int) $game['locationId']];
 $played = $game['homeScore'] !== null && $game['visitorScore'] !== null;
+$returnPath = 'match.php?id=' . (int) $game['id'];
 $playerMap = [];
+$matchPlayers = [];
 
 foreach ($players as $player) {
     $playerMap[(int) $player['id']] = $player;
+
+    if ((int) $player['teamId'] === (int) $home['id'] || (int) $player['teamId'] === (int) $visitor['id']) {
+        $matchPlayers[] = $player;
+    }
 }
 
 $matchGoals = array_values(array_filter($goals, static fn (array $goal): bool => (int) $goal['gameId'] === (int) $game['id']));
@@ -72,6 +78,66 @@ renderHeader('Szczegóły meczu', $context, $home['name'] . ' kontra ' . $visito
         <p><?= h($visitor['city']) ?></p>
     </div>
 </section>
+
+<?php if (isLoggedIn()): ?>
+    <section class="match-admin-panel">
+        <form class="action-card" method="post">
+            <input type="hidden" name="action" value="update_result">
+            <input type="hidden" name="redirect" value="<?= h($returnPath) ?>">
+            <input type="hidden" name="gameId" value="<?= h($game['id']) ?>">
+            <h2><?= $played ? 'Zmień wynik' : 'Wpisz wynik' ?></h2>
+            <div class="two-fields">
+                <label><?= h($home['name']) ?> <input type="number" name="homeScore" min="0" value="<?= h($game['homeScore'] ?? 0) ?>" required></label>
+                <label><?= h($visitor['name']) ?> <input type="number" name="visitorScore" min="0" value="<?= h($game['visitorScore'] ?? 0) ?>" required></label>
+            </div>
+            <button type="submit">Zapisz wynik</button>
+        </form>
+
+        <?php if ($played): ?>
+            <form class="action-card" method="post">
+                <input type="hidden" name="action" value="add_goal">
+                <input type="hidden" name="redirect" value="<?= h($returnPath) ?>">
+                <input type="hidden" name="gameId" value="<?= h($game['id']) ?>">
+                <h2>Dodaj bramkę</h2>
+                <label>Drużyna
+                    <select name="teamId" required>
+                        <option value="<?= h($home['id']) ?>"><?= h($home['name']) ?></option>
+                        <option value="<?= h($visitor['id']) ?>"><?= h($visitor['name']) ?></option>
+                    </select>
+                </label>
+                <label>Zawodnik
+                    <select name="playerId" required>
+                        <?php foreach ($matchPlayers as $player): ?>
+                            <option value="<?= h($player['id']) ?>">
+                                <?= h($player['name']) ?>, <?= h($teams[(int) $player['teamId']]['name']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                </label>
+                <div class="two-fields">
+                    <label>Minuta <input type="number" name="minute" min="1" max="130" value="45" required></label>
+                    <label>Typ <input name="type" required maxlength="40" value="z gry"></label>
+                </div>
+                <button type="submit">Zapisz bramkę</button>
+            </form>
+        <?php else: ?>
+            <article class="action-card muted-card">
+                <h2>Bramki po wyniku</h2>
+                <p>Najpierw wpisz wynik meczu. Po zapisaniu pojawi się formularz dodawania strzelców.</p>
+            </article>
+        <?php endif; ?>
+    </section>
+<?php else: ?>
+    <section class="panel">
+        <div class="panel-heading">
+            <div>
+                <p class="eyebrow">Edycja</p>
+                <h2>Chcesz dodać dane do meczu?</h2>
+            </div>
+            <a href="login.php?next=<?= h(rawurlencode($returnPath)) ?>">Zaloguj admina</a>
+        </div>
+    </section>
+<?php endif; ?>
 
 <section class="match-detail-grid">
     <article class="panel">

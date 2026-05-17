@@ -27,7 +27,9 @@ function renderHeader(string $title, array $context, string $subtitle = ''): voi
     <body>
         <aside class="sidebar">
             <a class="brand" href="index.php">
-                <span class="brand-mark">L</span>
+                <span class="brand-mark">
+                    <img src="assets/logo.svg" alt="Herb ligi">
+                </span>
                 <span>
                     <strong><?= h($league['name']) ?></strong>
                     <small><?= h($league['season']) ?></small>

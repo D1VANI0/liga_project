@@ -3,7 +3,8 @@ declare(strict_types=1);
 
 function redirectWithMessage(string $message, string $target = 'admin.php'): never
 {
-    header('Location: ' . $target . '?message=' . rawurlencode($message));
+    $separator = str_contains($target, '?') ? '&' : '?';
+    header('Location: ' . $target . $separator . 'message=' . rawurlencode($message));
     exit;
 }
 
@@ -13,13 +14,15 @@ function handlePost(): void
         return;
     }
 
-    requireLogin('admin.php');
+    $target = sanitizeLocalPath((string) ($_POST['redirect'] ?? 'admin.php'));
+
+    requireLogin($target);
 
     $action = $_POST['action'] ?? '';
 
     if ($action === 'reset_demo') {
         resetDemoData();
-        redirectWithMessage('Przywrócono dane demonstracyjne.');
+        redirectWithMessage('Przywrócono dane demonstracyjne.', $target);
     }
 
     if ($action === 'add_team') {
@@ -29,7 +32,7 @@ function handlePost(): void
             trim((string) $_POST['coach']),
             trim((string) ($_POST['color'] ?? '#0f766e')),
         );
-        redirectWithMessage('Dodano drużynę.');
+        redirectWithMessage('Dodano drużynę.', $target);
     }
 
     if ($action === 'add_player') {
@@ -38,7 +41,7 @@ function handlePost(): void
             trim((string) $_POST['name']),
             trim((string) $_POST['position']),
         );
-        redirectWithMessage('Dodano zawodnika.');
+        redirectWithMessage('Dodano zawodnika.', $target);
     }
 
     if ($action === 'add_game') {
@@ -48,7 +51,7 @@ function handlePost(): void
             (int) $_POST['visitorTeamId'],
             (int) $_POST['locationId'],
         );
-        redirectWithMessage('Dodano mecz do terminarza.');
+        redirectWithMessage('Dodano mecz do terminarza.', $target);
     }
 
     if ($action === 'update_result') {
@@ -57,7 +60,7 @@ function handlePost(): void
             (int) $_POST['homeScore'],
             (int) $_POST['visitorScore'],
         );
-        redirectWithMessage('Zaktualizowano wynik meczu.');
+        redirectWithMessage('Zaktualizowano wynik meczu.', $target);
     }
 
     if ($action === 'add_goal') {
@@ -68,6 +71,6 @@ function handlePost(): void
             (int) $_POST['minute'],
             trim((string) $_POST['type']),
         );
-        redirectWithMessage('Zarejestrowano bramkę.');
+        redirectWithMessage('Zarejestrowano bramkę.', $target);
     }
 }
