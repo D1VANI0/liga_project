@@ -14,7 +14,7 @@ function isActive(string $file): string
 function renderHeader(string $title, array $context, string $subtitle = ''): void
 {
     $league = $context['league'];
-    $subtitle = $subtitle !== '' ? $subtitle : 'Panel ligi przygotowany pod wdrożenie w chmurze';
+    $subtitle = $subtitle !== '' ? $subtitle : 'Panel ligi z terminarzem, tabelą i statystykami rozgrywek.';
     ?>
     <!doctype html>
     <html lang="pl">
@@ -28,7 +28,7 @@ function renderHeader(string $title, array $context, string $subtitle = ''): voi
         <aside class="sidebar">
             <a class="brand" href="index.php">
                 <span class="brand-mark">
-                    <img src="assets/logo.svg" alt="Herb ligi">
+                    <img src="assets/logo-transparent.png" alt="Herb ligi">
                 </span>
                 <span>
                     <strong><?= h($league['name']) ?></strong>
@@ -44,11 +44,6 @@ function renderHeader(string $title, array $context, string $subtitle = ''): voi
                 <a class="<?= isActive('reports.php') ?>" href="reports.php">Raporty</a>
                 <a class="<?= isActive('admin.php') ?>" href="admin.php">Administracja</a>
             </nav>
-            <div class="deploy-card">
-                <span>Wdrożenie</span>
-                <strong>Supabase</strong>
-                <small>PostgreSQL jako źródło danych</small>
-            </div>
         </aside>
         <div class="shell">
             <header class="page-header">
@@ -74,10 +69,6 @@ function renderFooter(): void
 {
     ?>
             </main>
-            <footer class="app-footer">
-                <span>System Liga - aplikacja PHP z bazą Supabase</span>
-                <span>Dane, statystyki i raporty są pobierane z PostgreSQL</span>
-            </footer>
         </div>
     </body>
     </html>

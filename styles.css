@@ -110,7 +110,7 @@ button:hover,
 
 .brand {
     display: grid;
-    grid-template-columns: 48px minmax(0, 1fr);
+    grid-template-columns: 66px minmax(0, 1fr);
     gap: 12px;
     align-items: center;
     margin-bottom: 22px;
@@ -128,17 +128,18 @@ button:hover,
 }
 
 .brand-mark {
-    width: 56px;
-    height: 56px;
+    width: 66px;
+    height: 66px;
     background: transparent;
     color: inherit;
     font-size: 0;
+    overflow: visible;
 }
 
 .brand-mark img {
     display: block;
-    width: 100%;
-    height: 100%;
+    width: 118%;
+    height: 118%;
     object-fit: contain;
 }
 
