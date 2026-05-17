@@ -1,9 +1,15 @@
 <?php
 require __DIR__ . '/includes/app.php';
 
-$data = loadData();
-$next = sanitizeLocalPath((string) ($_GET['next'] ?? 'admin.php'));
+$next = sanitizeLocalPath((string) ($_GET['next'] ?? $_POST['next'] ?? 'admin.php'));
 $error = handleLoginPost();
+
+if (isLoggedIn()) {
+    header('Location: ' . $next);
+    exit;
+}
+
+$data = loadData();
 $context = [
     'league' => $data['league'],
     'flash' => $error ?? ($_GET['message'] ?? null),

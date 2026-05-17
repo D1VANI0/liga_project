@@ -96,14 +96,14 @@ renderHeader('Panel ligi', $context, 'Najważniejsze informacje o rozgrywkach, w
     </div>
     <div class="match-strip">
         <?php foreach (array_slice($games, 0, 3) as $game): ?>
-            <article class="match-card">
+            <a class="match-card fixture-link" href="match.php?id=<?= h($game['id']) ?>">
                 <span><?= h($game['date']) ?>, <?= h($locations[(int) $game['locationId']]['name']) ?></span>
                 <div>
                     <strong><?= h($teams[(int) $game['homeTeamId']]['name']) ?></strong>
                     <b><?= $game['homeScore'] === null ? '-' : h($game['homeScore']) ?> : <?= $game['visitorScore'] === null ? '-' : h($game['visitorScore']) ?></b>
                     <strong><?= h($teams[(int) $game['visitorTeamId']]['name']) ?></strong>
                 </div>
-            </article>
+            </a>
         <?php endforeach; ?>
     </div>
 </section>

@@ -59,7 +59,8 @@ function handleLoginPost(): ?string
     $next = sanitizeLocalPath((string) ($_POST['next'] ?? 'admin.php'));
 
     if (attemptLogin($login, $password)) {
-        header('Location: ' . $next . '?message=' . rawurlencode('Zalogowano jako administrator.'));
+        $separator = str_contains($next, '?') ? '&' : '?';
+        header('Location: ' . $next . $separator . 'message=' . rawurlencode('Zalogowano jako administrator.'));
         exit;
     }
 

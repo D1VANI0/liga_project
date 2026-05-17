@@ -10,6 +10,11 @@ function appContext(): array
     $scorers = loadScorers();
     $playedGames = array_values(array_filter($data['games'], static fn (array $game): bool => $game['homeScore'] !== null && $game['visitorScore'] !== null));
     $upcomingGames = array_values(array_filter($data['games'], static fn (array $game): bool => $game['homeScore'] === null || $game['visitorScore'] === null));
+    $sortByDate = static fn (array $left, array $right): int => strcmp((string) $left['date'], (string) $right['date']);
+
+    usort($playedGames, $sortByDate);
+    usort($upcomingGames, $sortByDate);
+    $orderedGames = array_merge($playedGames, $upcomingGames);
 
     return [
         'data' => $data,
@@ -17,7 +22,7 @@ function appContext(): array
         'teams' => $data['teams'],
         'players' => $data['players'],
         'locations' => $data['locations'],
-        'games' => $data['games'],
+        'games' => $orderedGames,
         'goals' => $data['goals'],
         'standings' => $standings,
         'scorers' => $scorers,

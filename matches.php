@@ -16,7 +16,7 @@ renderHeader('Mecze', $context, 'Terminarz, lokalizacje oraz zapisane wyniki wsz
         $location = $locations[(int) $game['locationId']];
         $played = $game['homeScore'] !== null && $game['visitorScore'] !== null;
         ?>
-        <article class="fixture-card">
+        <a class="fixture-card fixture-link" href="match.php?id=<?= h($game['id']) ?>" aria-label="Szczegóły meczu <?= h($home['name']) ?> - <?= h($visitor['name']) ?>">
             <div class="fixture-top">
                 <span><?= h($game['date']) ?></span>
                 <b class="<?= $played ? 'badge done' : 'badge pending' ?>"><?= $played ? 'Wynik' : 'Plan' ?></b>
@@ -27,7 +27,8 @@ renderHeader('Mecze', $context, 'Terminarz, lokalizacje oraz zapisane wyniki wsz
                 <strong><?= h($visitor['name']) ?></strong>
             </div>
             <p><?= h($location['name']) ?>, <?= h($location['timezone']) ?></p>
-        </article>
+            <span class="match-more">Szczegóły meczu</span>
+        </a>
     <?php endforeach; ?>
 </section>
 <?php renderFooter(); ?>
