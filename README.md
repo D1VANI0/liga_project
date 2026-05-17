@@ -36,6 +36,16 @@ Aplikacja używa tabel:
 - `app_games`,
 - `app_goals`.
 
+Tabela `app_league_settings` jest tabelą nadrzędną dla ligi. Tabele `app_teams`
+i `app_games` mają kolumnę `league_id`, która wskazuje na `app_league_settings(id)`.
+
+Jeżeli w Supabase zostały starsze tabele bez prefiksu `app_`, uruchom w SQL Editor
+plik `database/cleanup_duplicate_tables.sql`. Skrypt:
+
+- dodaje brakujące relacje ligi do `app_teams` i `app_games`,
+- zostawia aktualne tabele `app_*`,
+- usuwa stare duplikaty: `leagues`, `teams`, `players`, `games`, `goals`, `locations`, `league_settings`.
+
 Dane na stronie mogą wyglądać tak samo jak wcześniej, ponieważ baza została zasilona tym samym zestawem demonstracyjnym. Różnica jest techniczna: odczyt i zapis idą teraz przez PostgreSQL w Supabase, a nie przez `data/league.json`.
 
 ## Logowanie
@@ -56,6 +66,8 @@ Panel administratora działa z bazą danych. Uwierzytelnianie jest oparte o sesj
 - `admin.php` - formularze administracyjne,
 - `login.php` - logowanie administratora,
 - `logout.php` - wylogowanie administratora,
+- `database/app_schema.sql` - aktualna struktura tabel `app_*`,
+- `database/cleanup_duplicate_tables.sql` - naprawa relacji ligi i usuwanie starych duplikatów tabel,
 - `includes/config.php` - ładowanie zmiennych środowiskowych,
 - `includes/models/league_model.php` - odczyt i zapis danych w Supabase,
 - `includes/services/league_service.php` - statystyki i raporty,

@@ -172,11 +172,24 @@ function databaseSchemaStatements(): array
 {
     return [
         'create table if not exists app_league_settings (id integer primary key default 1, name text not null, season text not null, schedule text not null, constraint app_league_settings_single_row check (id = 1))',
-        'create table if not exists app_teams (id integer primary key, name text not null, city text not null, coach text not null, color text not null)',
+        "insert into app_league_settings (id, name, season, schedule) values (1, 'Liga Akademicka', '2025/2026', 'Runda wiosenna') on conflict (id) do nothing",
+        'create table if not exists app_teams (id integer primary key, league_id integer not null default 1 references app_league_settings(id) on delete cascade, name text not null, city text not null, coach text not null, color text not null)',
         'create table if not exists app_players (id integer primary key, team_id integer not null references app_teams(id) on delete cascade, name text not null, position text not null)',
         'create table if not exists app_locations (id integer primary key, name text not null, timezone text not null)',
-        'create table if not exists app_games (id integer primary key, name text not null, game_date text not null, home_team_id integer not null references app_teams(id) on delete cascade, visitor_team_id integer not null references app_teams(id) on delete cascade, location_id integer not null references app_locations(id) on delete cascade, home_score integer null, visitor_score integer null)',
+        'create table if not exists app_games (id integer primary key, league_id integer not null default 1 references app_league_settings(id) on delete cascade, name text not null, game_date text not null, home_team_id integer not null references app_teams(id) on delete cascade, visitor_team_id integer not null references app_teams(id) on delete cascade, location_id integer not null references app_locations(id) on delete cascade, home_score integer null, visitor_score integer null)',
         'create table if not exists app_goals (id bigserial primary key, game_id integer not null references app_games(id) on delete cascade, team_id integer not null references app_teams(id) on delete cascade, player_id integer not null references app_players(id) on delete cascade, minute integer not null, type text not null)',
+        'alter table app_teams add column if not exists league_id integer',
+        'update app_teams set league_id = 1 where league_id is null or not exists (select 1 from app_league_settings where app_league_settings.id = app_teams.league_id)',
+        'alter table app_teams alter column league_id set default 1',
+        'alter table app_teams alter column league_id set not null',
+        "do $$ begin if not exists (select 1 from pg_constraint where conname = 'app_teams_league_id_fkey') then alter table app_teams add constraint app_teams_league_id_fkey foreign key (league_id) references app_league_settings(id) on delete cascade; end if; end $$",
+        'create index if not exists app_teams_league_id_idx on app_teams(league_id)',
+        'alter table app_games add column if not exists league_id integer',
+        'update app_games set league_id = 1 where league_id is null or not exists (select 1 from app_league_settings where app_league_settings.id = app_games.league_id)',
+        'alter table app_games alter column league_id set default 1',
+        'alter table app_games alter column league_id set not null',
+        "do $$ begin if not exists (select 1 from pg_constraint where conname = 'app_games_league_id_fkey') then alter table app_games add constraint app_games_league_id_fkey foreign key (league_id) references app_league_settings(id) on delete cascade; end if; end $$",
+        'create index if not exists app_games_league_id_idx on app_games(league_id)',
     ];
 }
 
@@ -280,9 +293,9 @@ function saveDataToDatabase(PDO $pdo, array $data): void
         $statement = $pdo->prepare('insert into app_league_settings (id, name, season, schedule) values (1, :name, :season, :schedule)');
         $statement->execute($data['league']);
 
-        $statement = $pdo->prepare('insert into app_teams (id, name, city, coach, color) values (:id, :name, :city, :coach, :color)');
+        $statement = $pdo->prepare('insert into app_teams (id, league_id, name, city, coach, color) values (:id, :leagueId, :name, :city, :coach, :color)');
         foreach ($data['teams'] as $team) {
-            $statement->execute(['id' => $team['id'], 'name' => $team['name'], 'city' => $team['city'], 'coach' => $team['coach'], 'color' => $team['color'] ?? '#0f766e']);
+            $statement->execute(['id' => $team['id'], 'leagueId' => 1, 'name' => $team['name'], 'city' => $team['city'], 'coach' => $team['coach'], 'color' => $team['color'] ?? '#0f766e']);
         }
 
         $statement = $pdo->prepare('insert into app_locations (id, name, timezone) values (:id, :name, :timezone)');
@@ -295,8 +308,9 @@ function saveDataToDatabase(PDO $pdo, array $data): void
             $statement->execute($player);
         }
 
-        $statement = $pdo->prepare('insert into app_games (id, name, game_date, home_team_id, visitor_team_id, location_id, home_score, visitor_score) values (:id, :name, :date, :homeTeamId, :visitorTeamId, :locationId, :homeScore, :visitorScore)');
+        $statement = $pdo->prepare('insert into app_games (id, league_id, name, game_date, home_team_id, visitor_team_id, location_id, home_score, visitor_score) values (:id, :leagueId, :name, :date, :homeTeamId, :visitorTeamId, :locationId, :homeScore, :visitorScore)');
         foreach ($data['games'] as $game) {
+            $game['leagueId'] = 1;
             $statement->execute($game);
         }
 
