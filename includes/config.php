@@ -1,13 +1,9 @@
 <?php
 declare(strict_types=1);
 
-const PROJECT_ROOT = __DIR__ . '/..';
-
-loadEnvironment(PROJECT_ROOT . '/.env');
-
 function loadEnvironment(string $path): void
 {
-    if (!is_readable($path)) {
+    if (!is_file($path)) {
         return;
     }
 
@@ -21,24 +17,23 @@ function loadEnvironment(string $path): void
         $name = trim($name);
         $value = trim($value, " \t\n\r\0\x0B\"'");
 
-        if ($name === '' || getenv($name) !== false) {
-            continue;
+        if ($name !== '' && getenv($name) === false) {
+            putenv($name . '=' . $value);
+            $_ENV[$name] = $value;
         }
-
-        putenv($name . '=' . $value);
-        $_ENV[$name] = $value;
-        $_SERVER[$name] = $value;
     }
 }
 
 function appConfig(string $key, ?string $default = null): ?string
 {
+    static $loaded = false;
+
+    if (!$loaded) {
+        loadEnvironment(__DIR__ . '/../.env');
+        $loaded = true;
+    }
+
     $value = getenv($key);
 
-    return $value === false || $value === '' ? $default : $value;
-}
-
-function envValue(string $key, ?string $default = null): ?string
-{
-    return appConfig($key, $default);
+    return $value === false ? $default : $value;
 }
