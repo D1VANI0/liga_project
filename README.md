@@ -21,9 +21,10 @@ a raporty korzystają z widoków i funkcji SQL.
 ## Konfiguracja Supabase
 
 1. W Supabase otwórz `SQL Editor`.
-2. Wklej i uruchom cały plik `database/schema.sql`.
-3. Skopiuj `.env.example` do `.env`.
-4. Wpisz hasło bazy danych w `SUPABASE_DB_PASSWORD`.
+2. Dla nowej pustej bazy wklej i uruchom cały plik `database/schema.sql`.
+3. Dla bazy, w której tabele już istnieją, uruchom `database/add_league_relations.sql`.
+4. Skopiuj `.env.example` do `.env`.
+5. Wpisz hasło bazy danych w `SUPABASE_DB_PASSWORD`.
 
 Przykład konfiguracji:
 
@@ -62,6 +63,7 @@ Panel administratora używa sesji PHP i stałego konta demonstracyjnego:
 - `login.php` - logowanie administratora,
 - `logout.php` - wylogowanie administratora,
 - `database/schema.sql` - tabele, indeksy, widoki i funkcja raportowa dla Supabase,
+- `database/add_league_relations.sql` - migracja dodająca powiązania `leagues` z `teams` i `games`,
 - `includes/config.php` - ładowanie zmiennych środowiskowych,
 - `includes/database.php` - połączenie PDO z PostgreSQL,
 - `includes/models/league_model.php` - odczyt i zapis danych w bazie,

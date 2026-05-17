@@ -123,7 +123,7 @@ function loadData(): array
     ensureDatabaseReady();
     seedDatabaseIfEmpty();
 
-    $league = dbRow('select name, season, schedule from leagues order by id limit 1');
+    $league = dbRow('select id, name, season, schedule from leagues order by id limit 1');
 
     return [
         'league' => $league ?? seedData()['league'],
@@ -250,8 +250,9 @@ function fetchGoals(): array
 function addTeam(string $name, string $city, string $coach, string $color): void
 {
     dbExecute(
-        'insert into teams (name, city, coach, color) values (:name, :city, :coach, :color)',
+        'insert into teams (league_id, name, city, coach, color) values (:league_id, :name, :city, :coach, :color)',
         [
+            'league_id' => currentLeagueId(),
             'name' => $name,
             'city' => $city,
             'coach' => $coach,
@@ -275,8 +276,9 @@ function addPlayer(int $teamId, string $name, string $position): void
 function addGame(string $date, int $homeTeamId, int $visitorTeamId, int $locationId): void
 {
     $row = dbRow(
-        'insert into games (name, date, home_team_id, visitor_team_id, location_id) values (:name, :date, :home_team_id, :visitor_team_id, :location_id) returning id',
+        'insert into games (league_id, name, date, home_team_id, visitor_team_id, location_id) values (:league_id, :name, :date, :home_team_id, :visitor_team_id, :location_id) returning id',
         [
+            'league_id' => currentLeagueId(),
             'name' => 'Nowy mecz',
             'date' => $date,
             'home_team_id' => $homeTeamId,
@@ -334,8 +336,9 @@ function resetDemoData(): void
         );
 
         foreach ($seed['teams'] as $team) {
+            $team['leagueId'] = 1;
             dbExecute(
-                'insert into teams (id, name, city, coach, color) values (:id, :name, :city, :coach, :color)',
+                'insert into teams (id, league_id, name, city, coach, color) values (:id, :leagueId, :name, :city, :coach, :color)',
                 $team,
             );
         }
@@ -355,8 +358,9 @@ function resetDemoData(): void
         }
 
         foreach ($seed['games'] as $game) {
+            $game['leagueId'] = 1;
             dbExecute(
-                'insert into games (id, name, date, home_team_id, visitor_team_id, location_id, home_score, visitor_score) values (:id, :name, :date, :homeTeamId, :visitorTeamId, :locationId, :homeScore, :visitorScore)',
+                'insert into games (id, league_id, name, date, home_team_id, visitor_team_id, location_id, home_score, visitor_score) values (:id, :leagueId, :name, :date, :homeTeamId, :visitorTeamId, :locationId, :homeScore, :visitorScore)',
                 $game,
             );
         }
@@ -382,6 +386,18 @@ function syncIdentitySequences(): void
     }
 }
 
+function currentLeagueId(): int
+{
+    seedDatabaseIfEmpty();
+    $row = dbRow('select id from leagues order by id limit 1');
+
+    if ($row === null) {
+        throw new RuntimeException('Brak ligi w bazie danych.');
+    }
+
+    return (int) $row['id'];
+}
+
 function ensureDatabaseReady(): void
 {
     $requiredTables = ['leagues', 'teams', 'locations', 'players', 'games', 'goals'];
@@ -395,6 +411,25 @@ function ensureDatabaseReady(): void
 
     if ($missingTables !== []) {
         throw new RuntimeException('Brakuje tabel w Supabase: ' . implode(', ', $missingTables) . '. Uruchom SQL z pliku database/schema.sql.');
+    }
+
+    $requiredColumns = [
+        'teams' => ['league_id'],
+        'games' => ['league_id'],
+    ];
+
+    foreach ($requiredColumns as $table => $columns) {
+        $columnPlaceholders = implode(', ', array_fill(0, count($columns), '?'));
+        $columnRows = dbRows(
+            "select column_name from information_schema.columns where table_schema = 'public' and table_name = ? and column_name in ($columnPlaceholders)",
+            array_merge([$table], $columns),
+        );
+        $existingColumns = array_column($columnRows, 'column_name');
+        $missingColumns = array_values(array_diff($columns, $existingColumns));
+
+        if ($missingColumns !== []) {
+            throw new RuntimeException('Brakuje kolumn w Supabase: ' . $table . '.' . implode(', ' . $table . '.', $missingColumns) . '. Uruchom SQL z pliku database/add_league_relations.sql.');
+        }
     }
 
     $requiredViews = ['standings_view', 'scorers_view'];
