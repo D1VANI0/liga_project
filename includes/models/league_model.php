@@ -62,8 +62,28 @@ function seedData(): array
         ['id' => 6, 'name' => 'Mecz 6', 'date' => '2026-05-24 18:00', 'homeTeamId' => 1, 'visitorTeamId' => 3, 'locationId' => 3, 'homeScore' => 1, 'visitorScore' => 1],
         ['id' => 7, 'name' => 'Mecz 7', 'date' => '2026-05-25 18:30', 'homeTeamId' => 2, 'visitorTeamId' => 5, 'locationId' => 1, 'homeScore' => 2, 'visitorScore' => 0],
         ['id' => 8, 'name' => 'Mecz 8', 'date' => '2026-05-26 19:00', 'homeTeamId' => 4, 'visitorTeamId' => 6, 'locationId' => 2, 'homeScore' => 1, 'visitorScore' => 3],
-        ['id' => 9, 'name' => 'Mecz 9', 'date' => '2026-05-27 19:30', 'homeTeamId' => 8, 'visitorTeamId' => 10, 'locationId' => 3, 'homeScore' => null, 'visitorScore' => null],
-        ['id' => 10, 'name' => 'Mecz 10', 'date' => '2026-05-28 18:15', 'homeTeamId' => 7, 'visitorTeamId' => 9, 'locationId' => 1, 'homeScore' => null, 'visitorScore' => null]
+        ['id' => 9, 'name' => 'Mecz 9', 'date' => '2026-05-27 19:30', 'homeTeamId' => 8, 'visitorTeamId' => 10, 'locationId' => 3, 'homeScore' => 2, 'visitorScore' => 2],
+        ['id' => 10, 'name' => 'Mecz 10', 'date' => '2026-05-28 18:15', 'homeTeamId' => 7, 'visitorTeamId' => 9, 'locationId' => 1, 'homeScore' => 1, 'visitorScore' => 4],
+        ['id' => 11, 'name' => 'Mecz 11', 'date' => '2026-05-30 18:00', 'homeTeamId' => 1, 'visitorTeamId' => 4, 'locationId' => 2, 'homeScore' => 2, 'visitorScore' => 0],
+        ['id' => 12, 'name' => 'Mecz 12', 'date' => '2026-05-31 16:30', 'homeTeamId' => 2, 'visitorTeamId' => 6, 'locationId' => 3, 'homeScore' => 1, 'visitorScore' => 1],
+        ['id' => 13, 'name' => 'Mecz 13', 'date' => '2026-06-01 19:00', 'homeTeamId' => 3, 'visitorTeamId' => 8, 'locationId' => 1, 'homeScore' => 0, 'visitorScore' => 2],
+        ['id' => 14, 'name' => 'Mecz 14', 'date' => '2026-06-02 18:30', 'homeTeamId' => 5, 'visitorTeamId' => 9, 'locationId' => 2, 'homeScore' => 3, 'visitorScore' => 2],
+        ['id' => 15, 'name' => 'Mecz 15', 'date' => '2026-06-03 20:00', 'homeTeamId' => 10, 'visitorTeamId' => 7, 'locationId' => 3, 'homeScore' => 2, 'visitorScore' => 1],
+        ['id' => 16, 'name' => 'Mecz 16', 'date' => '2026-06-05 18:00', 'homeTeamId' => 6, 'visitorTeamId' => 1, 'locationId' => 1, 'homeScore' => 0, 'visitorScore' => 3],
+        ['id' => 17, 'name' => 'Mecz 17', 'date' => '2026-06-06 17:30', 'homeTeamId' => 4, 'visitorTeamId' => 2, 'locationId' => 2, 'homeScore' => 1, 'visitorScore' => 2],
+        ['id' => 18, 'name' => 'Mecz 18', 'date' => '2026-06-07 18:45', 'homeTeamId' => 8, 'visitorTeamId' => 5, 'locationId' => 3, 'homeScore' => 2, 'visitorScore' => 0],
+        ['id' => 19, 'name' => 'Mecz 19', 'date' => '2026-06-08 19:15', 'homeTeamId' => 9, 'visitorTeamId' => 3, 'locationId' => 1, 'homeScore' => 1, 'visitorScore' => 1],
+        ['id' => 20, 'name' => 'Mecz 20', 'date' => '2026-06-09 20:00', 'homeTeamId' => 10, 'visitorTeamId' => 1, 'locationId' => 2, 'homeScore' => 2, 'visitorScore' => 2],
+        ['id' => 21, 'name' => 'Mecz 21', 'date' => '2026-06-11 18:00', 'homeTeamId' => 2, 'visitorTeamId' => 8, 'locationId' => 3, 'homeScore' => 3, 'visitorScore' => 0],
+        ['id' => 22, 'name' => 'Mecz 22', 'date' => '2026-06-12 19:00', 'homeTeamId' => 3, 'visitorTeamId' => 7, 'locationId' => 1, 'homeScore' => 2, 'visitorScore' => 1],
+        ['id' => 23, 'name' => 'Mecz 23', 'date' => '2026-06-13 16:00', 'homeTeamId' => 4, 'visitorTeamId' => 9, 'locationId' => 2, 'homeScore' => 0, 'visitorScore' => 0],
+        ['id' => 24, 'name' => 'Mecz 24', 'date' => '2026-06-14 18:30', 'homeTeamId' => 5, 'visitorTeamId' => 10, 'locationId' => 3, 'homeScore' => 1, 'visitorScore' => 3],
+        ['id' => 25, 'name' => 'Mecz 25', 'date' => '2026-06-15 20:00', 'homeTeamId' => 6, 'visitorTeamId' => 7, 'locationId' => 1, 'homeScore' => 2, 'visitorScore' => 2],
+        ['id' => 26, 'name' => 'Mecz 26', 'date' => '2026-06-18 18:00', 'homeTeamId' => 1, 'visitorTeamId' => 5, 'locationId' => 2, 'homeScore' => null, 'visitorScore' => null],
+        ['id' => 27, 'name' => 'Mecz 27', 'date' => '2026-06-19 19:30', 'homeTeamId' => 2, 'visitorTeamId' => 9, 'locationId' => 3, 'homeScore' => null, 'visitorScore' => null],
+        ['id' => 28, 'name' => 'Mecz 28', 'date' => '2026-06-20 17:00', 'homeTeamId' => 3, 'visitorTeamId' => 10, 'locationId' => 1, 'homeScore' => null, 'visitorScore' => null],
+        ['id' => 29, 'name' => 'Mecz 29', 'date' => '2026-06-21 18:30', 'homeTeamId' => 4, 'visitorTeamId' => 8, 'locationId' => 2, 'homeScore' => null, 'visitorScore' => null],
+        ['id' => 30, 'name' => 'Mecz 30', 'date' => '2026-06-22 20:00', 'homeTeamId' => 6, 'visitorTeamId' => 10, 'locationId' => 3, 'homeScore' => null, 'visitorScore' => null]
     ];
 
     return [
