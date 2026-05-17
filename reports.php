@@ -4,7 +4,7 @@ require __DIR__ . '/includes/app.php';
 $context = appContext();
 $teams = $context['teams'];
 $selectedOpponentId = isset($_GET['opponent']) && isset($teams[(int) $_GET['opponent']]) ? (int) $_GET['opponent'] : (int) array_key_first($teams);
-$bestAgainstTeam = findBestPlayerAgainstTeam($context['players'], $teams, $context['games'], $context['goals'], $selectedOpponentId);
+$bestAgainstTeam = findBestPlayerAgainstTeam($selectedOpponentId);
 
 renderHeader('Raporty', $context, 'Widoki analityczne potrzebne w wymaganiach systemu Liga.');
 ?>
@@ -49,11 +49,11 @@ renderHeader('Raporty', $context, 'Widoki analityczne potrzebne w wymaganiach sy
             </div>
         </div>
         <ul class="check-list">
-            <li>Model danych w `includes/models/league_model.php`</li>
+            <li>Model danych zapisany w Supabase PostgreSQL</li>
             <li>Kontrolery dla aplikacji, administracji i logowania</li>
             <li>Wspólny układ w warstwie widoku</li>
-            <li>Logowanie przez sesję PHP bez bazy danych</li>
-            <li>Warstwa JSON gotowa do podmiany na SQL</li>
+            <li>Logowanie administratora przez sesję PHP</li>
+            <li>Widoki SQL dla tabeli ligowej i klasyfikacji strzelców</li>
         </ul>
     </article>
 </section>

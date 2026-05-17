@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-const STORAGE_PATH = __DIR__ . '/../../data/league.json';
-
 function seedData(): array
 {
     $teams = [
@@ -120,33 +118,311 @@ function seedPlayerId(int $teamId, int $squadNumber): int
     return (($teamId - 1) * 22) + $squadNumber;
 }
 
-function saveData(array $data): void
-{
-    $directory = dirname(STORAGE_PATH);
-    if (!is_dir($directory)) {
-        mkdir($directory, 0775, true);
-    }
-
-    file_put_contents(STORAGE_PATH, json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE));
-}
-
 function loadData(): array
 {
-    $seed = seedData();
-    if (!is_file(STORAGE_PATH)) {
-        saveData($seed);
+    ensureDatabaseReady();
+    seedDatabaseIfEmpty();
 
-        return $seed;
-    }
+    $league = dbRow('select name, season, schedule from leagues order by id limit 1');
 
-    $decoded = json_decode((string) file_get_contents(STORAGE_PATH), true);
-
-    return is_array($decoded) ? array_replace_recursive($seed, $decoded) : $seed;
+    return [
+        'league' => $league ?? seedData()['league'],
+        'teams' => fetchTeams(),
+        'players' => fetchPlayers(),
+        'locations' => fetchLocations(),
+        'games' => fetchGames(),
+        'goals' => fetchGoals(),
+    ];
 }
 
-function nextId(array $items): int
+function fetchTeams(): array
 {
-    $ids = array_column($items, 'id');
+    $teams = [];
 
-    return $ids === [] ? 1 : max($ids) + 1;
+    foreach (dbRows('select id, name, city, coach, color from teams order by id') as $row) {
+        $team = [
+            'id' => (int) $row['id'],
+            'name' => $row['name'],
+            'city' => $row['city'],
+            'coach' => $row['coach'],
+            'color' => $row['color'],
+        ];
+        $teams[$team['id']] = $team;
+    }
+
+    return $teams;
+}
+
+function fetchPlayers(): array
+{
+    $players = [];
+
+    foreach (dbRows('select id, team_id as "teamId", name, position from players order by team_id, id') as $row) {
+        $players[] = [
+            'id' => (int) $row['id'],
+            'teamId' => (int) $row['teamId'],
+            'name' => $row['name'],
+            'position' => $row['position'],
+        ];
+    }
+
+    return $players;
+}
+
+function fetchLocations(): array
+{
+    $locations = [];
+
+    foreach (dbRows('select id, name, timezone from locations order by id') as $row) {
+        $location = [
+            'id' => (int) $row['id'],
+            'name' => $row['name'],
+            'timezone' => $row['timezone'],
+        ];
+        $locations[$location['id']] = $location;
+    }
+
+    return $locations;
+}
+
+function fetchGames(): array
+{
+    $games = [];
+
+    $sql = <<<'SQL'
+        select
+            id,
+            name,
+            to_char(date, 'YYYY-MM-DD HH24:MI') as date,
+            home_team_id as "homeTeamId",
+            visitor_team_id as "visitorTeamId",
+            location_id as "locationId",
+            home_score as "homeScore",
+            visitor_score as "visitorScore"
+        from games
+        order by date, id
+    SQL;
+
+    foreach (dbRows($sql) as $row) {
+        $games[] = [
+            'id' => (int) $row['id'],
+            'name' => $row['name'],
+            'date' => $row['date'],
+            'homeTeamId' => (int) $row['homeTeamId'],
+            'visitorTeamId' => (int) $row['visitorTeamId'],
+            'locationId' => (int) $row['locationId'],
+            'homeScore' => $row['homeScore'] === null ? null : (int) $row['homeScore'],
+            'visitorScore' => $row['visitorScore'] === null ? null : (int) $row['visitorScore'],
+        ];
+    }
+
+    return $games;
+}
+
+function fetchGoals(): array
+{
+    $goals = [];
+
+    $sql = <<<'SQL'
+        select
+            game_id as "gameId",
+            team_id as "teamId",
+            player_id as "playerId",
+            minute,
+            type
+        from goals
+        order by game_id, minute, id
+    SQL;
+
+    foreach (dbRows($sql) as $row) {
+        $goals[] = [
+            'gameId' => (int) $row['gameId'],
+            'teamId' => (int) $row['teamId'],
+            'playerId' => (int) $row['playerId'],
+            'minute' => (int) $row['minute'],
+            'type' => $row['type'],
+        ];
+    }
+
+    return $goals;
+}
+
+function addTeam(string $name, string $city, string $coach, string $color): void
+{
+    dbExecute(
+        'insert into teams (name, city, coach, color) values (:name, :city, :coach, :color)',
+        [
+            'name' => $name,
+            'city' => $city,
+            'coach' => $coach,
+            'color' => $color !== '' ? $color : '#0f766e',
+        ],
+    );
+}
+
+function addPlayer(int $teamId, string $name, string $position): void
+{
+    dbExecute(
+        'insert into players (team_id, name, position) values (:team_id, :name, :position)',
+        [
+            'team_id' => $teamId,
+            'name' => $name,
+            'position' => $position,
+        ],
+    );
+}
+
+function addGame(string $date, int $homeTeamId, int $visitorTeamId, int $locationId): void
+{
+    $row = dbRow(
+        'insert into games (name, date, home_team_id, visitor_team_id, location_id) values (:name, :date, :home_team_id, :visitor_team_id, :location_id) returning id',
+        [
+            'name' => 'Nowy mecz',
+            'date' => $date,
+            'home_team_id' => $homeTeamId,
+            'visitor_team_id' => $visitorTeamId,
+            'location_id' => $locationId,
+        ],
+    );
+
+    $id = (int) ($row['id'] ?? 0);
+    if ($id > 0) {
+        dbExecute('update games set name = :name where id = :id', ['name' => 'Mecz ' . $id, 'id' => $id]);
+    }
+}
+
+function updateGameResult(int $gameId, int $homeScore, int $visitorScore): void
+{
+    dbExecute(
+        'update games set home_score = :home_score, visitor_score = :visitor_score where id = :id',
+        [
+            'id' => $gameId,
+            'home_score' => max(0, $homeScore),
+            'visitor_score' => max(0, $visitorScore),
+        ],
+    );
+}
+
+function addGoal(int $gameId, int $teamId, int $playerId, int $minute, string $type): void
+{
+    dbExecute(
+        'insert into goals (game_id, team_id, player_id, minute, type) values (:game_id, :team_id, :player_id, :minute, :type)',
+        [
+            'game_id' => $gameId,
+            'team_id' => $teamId,
+            'player_id' => $playerId,
+            'minute' => max(1, min(130, $minute)),
+            'type' => $type,
+        ],
+    );
+}
+
+function resetDemoData(): void
+{
+    ensureDatabaseReady();
+
+    $seed = seedData();
+    $pdo = db();
+    $pdo->beginTransaction();
+
+    try {
+        $pdo->exec('truncate table goals, games, players, teams, locations, leagues restart identity cascade');
+
+        dbExecute(
+            'insert into leagues (id, name, season, schedule) values (1, :name, :season, :schedule)',
+            $seed['league'],
+        );
+
+        foreach ($seed['teams'] as $team) {
+            dbExecute(
+                'insert into teams (id, name, city, coach, color) values (:id, :name, :city, :coach, :color)',
+                $team,
+            );
+        }
+
+        foreach ($seed['locations'] as $location) {
+            dbExecute(
+                'insert into locations (id, name, timezone) values (:id, :name, :timezone)',
+                $location,
+            );
+        }
+
+        foreach ($seed['players'] as $player) {
+            dbExecute(
+                'insert into players (id, team_id, name, position) values (:id, :teamId, :name, :position)',
+                $player,
+            );
+        }
+
+        foreach ($seed['games'] as $game) {
+            dbExecute(
+                'insert into games (id, name, date, home_team_id, visitor_team_id, location_id, home_score, visitor_score) values (:id, :name, :date, :homeTeamId, :visitorTeamId, :locationId, :homeScore, :visitorScore)',
+                $game,
+            );
+        }
+
+        foreach ($seed['goals'] as $goal) {
+            addGoal((int) $goal['gameId'], (int) $goal['teamId'], (int) $goal['playerId'], (int) $goal['minute'], $goal['type']);
+        }
+
+        syncIdentitySequences();
+        $pdo->commit();
+    } catch (Throwable $exception) {
+        $pdo->rollBack();
+        throw $exception;
+    }
+}
+
+function syncIdentitySequences(): void
+{
+    foreach (['leagues', 'teams', 'locations', 'players', 'games', 'goals'] as $table) {
+        db()->exec(
+            "select setval(pg_get_serial_sequence('{$table}', 'id'), coalesce((select max(id) from {$table}), 1), true)",
+        );
+    }
+}
+
+function ensureDatabaseReady(): void
+{
+    $requiredTables = ['leagues', 'teams', 'locations', 'players', 'games', 'goals'];
+    $placeholders = implode(', ', array_fill(0, count($requiredTables), '?'));
+    $rows = dbRows(
+        "select table_name from information_schema.tables where table_schema = 'public' and table_name in ($placeholders)",
+        $requiredTables,
+    );
+    $existingTables = array_column($rows, 'table_name');
+    $missingTables = array_values(array_diff($requiredTables, $existingTables));
+
+    if ($missingTables !== []) {
+        throw new RuntimeException('Brakuje tabel w Supabase: ' . implode(', ', $missingTables) . '. Uruchom SQL z pliku database/schema.sql.');
+    }
+
+    $requiredViews = ['standings_view', 'scorers_view'];
+    $viewPlaceholders = implode(', ', array_fill(0, count($requiredViews), '?'));
+    $viewRows = dbRows(
+        "select table_name from information_schema.views where table_schema = 'public' and table_name in ($viewPlaceholders)",
+        $requiredViews,
+    );
+    $existingViews = array_column($viewRows, 'table_name');
+    $missingViews = array_values(array_diff($requiredViews, $existingViews));
+
+    if ($missingViews !== []) {
+        throw new RuntimeException('Brakuje widoków w Supabase: ' . implode(', ', $missingViews) . '. Uruchom SQL z pliku database/schema.sql.');
+    }
+
+    $functionRow = dbRow(
+        "select 1 from pg_proc p join pg_namespace n on n.oid = p.pronamespace where n.nspname = 'public' and p.proname = 'best_player_against_team' limit 1",
+    );
+
+    if ($functionRow === null) {
+        throw new RuntimeException('Brakuje funkcji best_player_against_team w Supabase. Uruchom SQL z pliku database/schema.sql.');
+    }
+}
+
+function seedDatabaseIfEmpty(): void
+{
+    $row = dbRow('select count(*) as count from leagues');
+    if ((int) ($row['count'] ?? 0) === 0) {
+        resetDemoData();
+    }
 }

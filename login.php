@@ -9,7 +9,7 @@ $context = [
     'flash' => $error ?? ($_GET['message'] ?? null),
 ];
 
-renderHeader('Logowanie', $context, 'Dostęp do operacji administracyjnych bez użycia bazy danych.');
+renderHeader('Logowanie', $context, 'Dostęp do operacji administracyjnych aplikacji.');
 ?>
 <section class="login-wrap">
     <form class="action-card login-card" method="post">
