@@ -13,6 +13,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: drużyny, zawo
 ?>
 <section class="admin-actions">
     <form class="action-card" method="post">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="add_team">
         <h2>Dodaj drużynę</h2>
         <label>Nazwa <input name="name" required maxlength="80" placeholder="np. Orzeł FC"></label>
@@ -23,6 +24,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: drużyny, zawo
     </form>
 
     <form class="action-card" method="post">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="add_player">
         <h2>Dodaj zawodnika</h2>
         <label>Drużyna
@@ -38,6 +40,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: drużyny, zawo
     </form>
 
     <form class="action-card" method="post">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="add_game">
         <h2>Dodaj mecz</h2>
         <label>Data <input name="date" required maxlength="40" placeholder="2026-06-01 18:00"></label>
@@ -66,6 +69,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: drużyny, zawo
     </form>
 
     <form class="action-card" method="post">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="update_result">
         <h2>Wpisz wynik</h2>
         <label>Mecz
@@ -85,6 +89,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: drużyny, zawo
     </form>
 
     <form class="action-card wide-action" method="post">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="add_goal">
         <h2>Zarejestruj bramkę</h2>
         <label>Mecz
@@ -118,6 +123,7 @@ renderHeader('Administracja', $context, 'Operacje administratora: drużyny, zawo
     </form>
 
     <form class="action-card danger-card" method="post">
+        <?= csrfField() ?>
         <input type="hidden" name="action" value="reset_demo">
         <h2>Reset danych</h2>
         <p>Przywraca przykładowe dane projektu i usuwa zmiany zapisane w bazie danych.</p>

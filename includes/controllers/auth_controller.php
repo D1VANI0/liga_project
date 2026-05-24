@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 const ADMIN_LOGIN = 'admin';
 const ADMIN_PASSWORD_HASH = '$2y$10$0mBjL31ml2HUKKe0/cEh8uP.YfHGxFpF3hPsYXueVzmfTt6E4usy2';
+const CSRF_TOKEN_KEY = 'csrf_token';
 
 function isLoggedIn(): bool
 {
@@ -22,8 +23,39 @@ function attemptLogin(string $login, string $password): bool
 
     session_regenerate_id(true);
     $_SESSION['user'] = ADMIN_LOGIN;
+    regenerateCsrfToken();
 
     return true;
+}
+
+function csrfToken(): string
+{
+    if (!isset($_SESSION[CSRF_TOKEN_KEY]) || !is_string($_SESSION[CSRF_TOKEN_KEY])) {
+        regenerateCsrfToken();
+    }
+
+    return $_SESSION[CSRF_TOKEN_KEY];
+}
+
+function regenerateCsrfToken(): string
+{
+    $_SESSION[CSRF_TOKEN_KEY] = bin2hex(random_bytes(32));
+
+    return $_SESSION[CSRF_TOKEN_KEY];
+}
+
+function csrfField(): string
+{
+    return '<input type="hidden" name="csrf_token" value="'
+        . htmlspecialchars(csrfToken(), ENT_QUOTES, 'UTF-8')
+        . '">';
+}
+
+function isValidCsrfToken(string $token): bool
+{
+    $sessionToken = $_SESSION[CSRF_TOKEN_KEY] ?? '';
+
+    return is_string($sessionToken) && $token !== '' && hash_equals($sessionToken, $token);
 }
 
 function logoutUser(): void
@@ -52,6 +84,10 @@ function handleLoginPost(): ?string
 {
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         return null;
+    }
+
+    if (!isValidCsrfToken((string) ($_POST['csrf_token'] ?? ''))) {
+        return 'Nieprawidłowy token bezpieczeństwa. Odśwież stronę i spróbuj ponownie.';
     }
 
     $login = trim((string) ($_POST['login'] ?? ''));

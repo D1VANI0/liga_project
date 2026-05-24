@@ -18,6 +18,10 @@ function handlePost(): void
 
     requireLogin($target);
 
+    if (!isValidCsrfToken((string) ($_POST['csrf_token'] ?? ''))) {
+        redirectWithMessage('Nieprawidłowy token bezpieczeństwa. Odśwież stronę i spróbuj ponownie.', $target);
+    }
+
     $action = $_POST['action'] ?? '';
 
     if ($action === 'reset_demo') {

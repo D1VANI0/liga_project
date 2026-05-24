@@ -19,6 +19,7 @@ renderHeader('Logowanie', $context, 'Dostęp do panelu administratora.');
 ?>
 <section class="login-wrap">
     <form class="action-card login-card" method="post">
+        <?= csrfField() ?>
         <input type="hidden" name="next" value="<?= h($next) ?>">
         <h2>Panel administratora</h2>
         <label>Nazwa użytkownika <input name="login" required maxlength="40" autocomplete="username" placeholder="login"></label>

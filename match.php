@@ -82,6 +82,7 @@ renderHeader('Szczegóły meczu', $context, $home['name'] . ' kontra ' . $visito
 <?php if (isLoggedIn()): ?>
     <section class="match-admin-panel">
         <form class="action-card" method="post">
+            <?= csrfField() ?>
             <input type="hidden" name="action" value="update_result">
             <input type="hidden" name="redirect" value="<?= h($returnPath) ?>">
             <input type="hidden" name="gameId" value="<?= h($game['id']) ?>">
@@ -95,6 +96,7 @@ renderHeader('Szczegóły meczu', $context, $home['name'] . ' kontra ' . $visito
 
         <?php if ($played): ?>
             <form class="action-card" method="post">
+                <?= csrfField() ?>
                 <input type="hidden" name="action" value="add_goal">
                 <input type="hidden" name="redirect" value="<?= h($returnPath) ?>">
                 <input type="hidden" name="gameId" value="<?= h($game['id']) ?>">

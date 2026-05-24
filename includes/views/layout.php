@@ -57,7 +57,10 @@ function renderHeader(string $title, array $context, string $subtitle = ''): voi
                     <p><?= h($subtitle) ?></p>
                 </div>
                 <?php if (basename((string) $_SERVER['SCRIPT_NAME']) === 'admin.php' && isLoggedIn()): ?>
-                    <a class="primary-link" href="logout.php">Wyloguj admina</a>
+                    <form class="logout-form" method="post" action="logout.php">
+                        <?= csrfField() ?>
+                        <button class="primary-link" type="submit">Wyloguj admina</button>
+                    </form>
                 <?php endif; ?>
             </header>
             <?php if ($context['flash'] !== null): ?>

@@ -307,6 +307,10 @@ button:hover,
     font-size: 16px;
 }
 
+.logout-form {
+    margin: 0;
+}
+
 .eyebrow {
     margin: 0 0 7px;
     color: var(--brand);
