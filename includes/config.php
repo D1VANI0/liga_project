@@ -29,7 +29,9 @@ function appConfig(string $key, ?string $default = null): ?string
     static $loaded = false;
 
     if (!$loaded) {
-        loadEnvironment(__DIR__ . '/../.env');
+        if (getenv('APP_SKIP_ENV_FILE') !== '1') {
+            loadEnvironment(__DIR__ . '/../.env');
+        }
         $loaded = true;
     }
 

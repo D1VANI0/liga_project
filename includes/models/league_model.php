@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-const STORAGE_PATH = __DIR__ . '/../../data/league.json';
+define('STORAGE_PATH', getenv('APP_STORAGE_PATH') ?: __DIR__ . '/../../data/league.json');
 
 function pl(string $value): string
 {
